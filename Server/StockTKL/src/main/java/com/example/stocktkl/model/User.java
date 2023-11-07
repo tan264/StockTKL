@@ -45,7 +45,6 @@ public class User {
     @Size(max = 100)
     private String password;
 
-    @NotBlank
     @Size(max =100 )
     private String fullName;
 
@@ -67,5 +66,11 @@ public class User {
         createdAt = LocalDateTime.now();
     }
 
+    public User(String username, String email, String password, String fullName) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.fullName = fullName;
+    }
 
 }

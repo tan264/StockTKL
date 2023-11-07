@@ -21,14 +21,12 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 
 public class AuthTokenFilter extends OncePerRequestFilter {
-    final private JwtUtils jwtUtils;
+    @Autowired
+    private JwtUtils jwtUtils;
 
-    final private UserDetailsServiceImpl userDetailsService;
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
 
-    public AuthTokenFilter(JwtUtils jwtUtils,UserDetailsServiceImpl userDetailsService) {
-        this.userDetailsService = userDetailsService;
-        this.jwtUtils = jwtUtils;
-    }
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
     @Override

@@ -22,4 +22,8 @@ public class Role {
     @Column(length = 20)
     private ERole name;
 
+
+    public Role(ERole eRole) {
+        this.name = eRole;
+    }
 }
