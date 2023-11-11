@@ -15,22 +15,22 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SignupRequest {
-    @NotBlank
+    @NotBlank(message = "username is mandatory")
     @Size(min = 3, max = 20)
     private String username;
 
-    @NotBlank
+    @NotBlank(message = "Email is mandatory")
     @Size(max = 50)
     @Email
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "Full Name is mandatory")
     @Size(max =100 )
     private String fullName;
 
     private Set<String> role;
 
-    @NotBlank
+    @NotBlank(message = "password is mandatory")
     @Size(min = 6, max = 40)
     private String password;
 
