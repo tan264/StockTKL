@@ -15,7 +15,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @Builder
@@ -23,30 +22,25 @@ import java.util.List;
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Entity
-@Table(name="stocks")
-public class Stock {
+@Table(name="user_devices")
+public class UserDevice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
-    @Column(length = 100)
-    private String stockName;
+    private String  tokenFrom;
 
     @NotBlank
-    @Column(length =20,unique = true )
-    private String stockSymbol;
+    private String ipAddress;
 
-    private String industry;
+    @NotBlank
+    private String deviceInfo;
 
-    @OneToMany(mappedBy = "stock")
-    private List<Portfolio> portfolios;
-
-    @OneToMany(mappedBy = "stock")
-    private List<Quote> quotes;
-
-    @OneToMany(mappedBy = "stock")
-    private List<Order> orders;
+    @NotBlank
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -54,14 +48,9 @@ public class Stock {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    @CreatedBy
-    private String createdBy;
-
-    @LastModifiedBy
-    private String updatedBy;
-
     @PrePersist
     public void prePersist() {
         createdAt = LocalDateTime.now();
     }
 }
+

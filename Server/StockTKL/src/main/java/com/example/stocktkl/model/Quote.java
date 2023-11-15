@@ -15,7 +15,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @Builder
@@ -23,30 +22,34 @@ import java.util.List;
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Entity
-@Table(name="stocks")
-public class Stock {
+@Table(name="quotes")
+public class Quote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
-    @Column(length = 100)
-    private String stockName;
+    @Column(precision = 10, scale = 4)
+    @DecimalMin("0.00")
+    private BigDecimal price;
 
     @NotBlank
-    @Column(length =20,unique = true )
-    private String stockSymbol;
+    @Column(precision = 10, scale = 4)
+    @DecimalMin("0.00")
+    private BigDecimal changeValue;
 
-    private String industry;
+    @NotBlank
+    @Column(precision = 10, scale = 4)
+    @DecimalMin("0.00")
+    private BigDecimal percentChange;
 
-    @OneToMany(mappedBy = "stock")
-    private List<Portfolio> portfolios;
+    @NotBlank
+    private Integer volume;
 
-    @OneToMany(mappedBy = "stock")
-    private List<Quote> quotes;
-
-    @OneToMany(mappedBy = "stock")
-    private List<Order> orders;
+    @NotBlank
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stock_id")
+    private Stock stock;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -54,11 +57,6 @@ public class Stock {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    @CreatedBy
-    private String createdBy;
-
-    @LastModifiedBy
-    private String updatedBy;
 
     @PrePersist
     public void prePersist() {
