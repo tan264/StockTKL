@@ -22,21 +22,31 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Entity
-@Table(name="stocks")
-public class Stock {
+@Table(name="bank_accounts")
+public class BankAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
-    @Column(length = 100)
-    private String stockName;
+    private String  bankName;
 
     @NotBlank
-    @Column(length =20,unique = true )
-    private String stockSymbol;
+    private String ipAddress;
 
-    private String industry;
+    @NotBlank
+    private String accountNumber;
+
+    @NotBlank
+    private String routingNumber;
+
+    @NotBlank
+    private String AccountType;
+
+    @NotBlank
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -44,14 +54,10 @@ public class Stock {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    @CreatedBy
-    private String createdBy;
-
-    @LastModifiedBy
-    private String updatedBy;
-
     @PrePersist
     public void prePersist() {
         createdAt = LocalDateTime.now();
     }
 }
+
+

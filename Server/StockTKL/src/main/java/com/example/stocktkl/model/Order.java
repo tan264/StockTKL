@@ -51,7 +51,7 @@ public class Order {
     @NotBlank
     @Column(precision = 10, scale = 2)
     @DecimalMin("0.00")
-    private BigDecimal orderPrice;
+    private BigDecimal price;
 
     @NotBlank
     @Enumerated(EnumType.STRING)

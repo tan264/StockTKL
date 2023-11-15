@@ -48,6 +48,10 @@ public class User {
     @Size(max =100 )
     private String fullName;
 
+    private LocalDateTime dateOfBirth;
+
+    private String country;
+
     @CreatedDate
     private LocalDateTime createdAt;
 
@@ -60,6 +64,12 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable( name = "watchlists",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "stock_id"))
+    private Set<Role> stocks = new HashSet<>();
 
     @PrePersist
     public void prePersist() {

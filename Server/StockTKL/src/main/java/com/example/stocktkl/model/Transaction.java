@@ -30,20 +30,20 @@ public class Transaction {
 
     @NotBlank
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "buyer_id")
-    private User buyer;
-
+    @JoinColumn(name = "user_id")
+    private User user;
+    @NotBlank
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "seller_id")
-    private User seller;
+    @JoinColumn(name = "bank_account_id")
+    private BankAccount bankAccount;
 
     @NotBlank
-    private Integer quantity;
+    private Integer TransactionType;
 
     @NotBlank
     @Column(precision = 10, scale = 2)
     @DecimalMin("0.00")
-    private BigDecimal transacionPrice;
+    private BigDecimal amount;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -51,11 +51,7 @@ public class Transaction {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    @CreatedBy
-    private String createdBy;
 
-    @LastModifiedBy
-    private String updatedBy;
 
     @PrePersist
     public void prePersist() {
