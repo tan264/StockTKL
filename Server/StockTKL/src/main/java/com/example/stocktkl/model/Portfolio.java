@@ -19,12 +19,13 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name="portfolios")
 public class Portfolio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long portfolioId;
+    private Long id;
 
     @NotBlank
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,7 +33,7 @@ public class Portfolio {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "stock_id", referencedColumnName = "symbol")
+    @JoinColumn(name = "stock_id")
     private Stock stock;
 
     @NotBlank
@@ -44,10 +45,20 @@ public class Portfolio {
     private BigDecimal purchasePrice;
 
     @CreatedDate
-    private LocalDateTime purchaseDate;
+    private LocalDateTime createdAt;
 
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
 
+    @CreatedBy
+    private String createdBy;
 
+    @LastModifiedBy
+    private String updatedBy;
 
+    @PrePersist
+    public void prePersist() {
+        createdAt = LocalDateTime.now();
+    }
 
 }

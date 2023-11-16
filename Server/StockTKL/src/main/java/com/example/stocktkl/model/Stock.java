@@ -15,9 +15,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Data
 @Builder
@@ -28,28 +25,33 @@ import java.util.Set;
 @Table(name="stocks")
 public class Stock {
     @Id
-    @NotBlank
-    @Column(unique = true)
-    private String symbol;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @NotBlank
     @Column(length = 100)
     private String stockName;
 
+    @NotBlank
+    @Column(length =20,unique = true )
+    private String stockSymbol;
+
     private String industry;
 
-    private String sector;
+    @CreatedDate
+    private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "stock")
-    private List<Portfolio> portfolios;
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "stock")
-    private List<Quote> quotes;
+    @CreatedBy
+    private String createdBy;
 
-    @OneToMany(mappedBy = "stock")
-    private List<Order> orders;
+    @LastModifiedBy
+    private String updatedBy;
 
-    @ManyToMany(mappedBy = "watchlistedStocks")
-    private Set<User> users = new HashSet<>();
-
+    @PrePersist
+    public void prePersist() {
+        createdAt = LocalDateTime.now();
+    }
 }

@@ -14,13 +14,13 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "users",
         uniqueConstraints = {
@@ -30,7 +30,7 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long id;
 
     @NotBlank
     @Size(max = 50)
@@ -52,20 +52,11 @@ public class User {
 
     private String country;
 
-    @OneToMany(mappedBy = "user")
-    private List<Portfolio> portfolios;
+    @CreatedDate
+    private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "user")
-    private List<Order> orders;
-
-    @OneToMany(mappedBy = "user")
-    private List<UserDevice> userDevices;
-
-    @OneToMany(mappedBy = "user")
-    private List<BankAccount> bankAccounts;
-
-    @OneToMany(mappedBy = "user")
-    private List<Transaction> transactions;
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
 
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -75,14 +66,15 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "watchlists",
+    @JoinTable( name = "watchlists",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "stock_id")
-    )
-    private Set<Stock> watchlistedStocks = new HashSet<>();
+            inverseJoinColumns = @JoinColumn(name = "stock_id"))
+    private Set<Role> stocks = new HashSet<>();
 
-
+    @PrePersist
+    public void prePersist() {
+        createdAt = LocalDateTime.now();
+    }
 
     public User(String username, String email, String password, String fullName) {
         this.username = username;
