@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name="user_devices")
 public class UserDevice {
@@ -29,7 +28,7 @@ public class UserDevice {
     private Long id;
 
     @NotBlank
-    private String  tokenFrom;
+    private String tokenFrom;
 
     @NotBlank
     private String ipAddress;
@@ -42,15 +41,5 @@ public class UserDevice {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @CreatedDate
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
-
-    @PrePersist
-    public void prePersist() {
-        createdAt = LocalDateTime.now();
-    }
 }
 

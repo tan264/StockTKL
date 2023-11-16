@@ -21,7 +21,6 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "users",
         uniqueConstraints = {
@@ -31,7 +30,7 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
 
     @NotBlank
     @Size(max = 50)
@@ -52,12 +51,6 @@ public class User {
     private LocalDateTime dateOfBirth;
 
     private String country;
-
-    @CreatedDate
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "user")
     private List<Portfolio> portfolios;
@@ -82,15 +75,14 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable( name = "watchlists",
+    @JoinTable(
+            name = "watchlists",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "stock_id"))
-    private Set<Role> stocks = new HashSet<>();
+            inverseJoinColumns = @JoinColumn(name = "stock_id")
+    )
+    private Set<Stock> watchlistedStocks = new HashSet<>();
 
-    @PrePersist
-    public void prePersist() {
-        createdAt = LocalDateTime.now();
-    }
+
 
     public User(String username, String email, String password, String fullName) {
         this.username = username;

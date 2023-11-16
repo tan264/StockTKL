@@ -20,13 +20,12 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name="transactions")
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long transitionId;
 
     @NotBlank
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,7 +33,7 @@ public class Transaction {
     private User user;
     @NotBlank
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bank_account_id")
+    @JoinColumn(name = "linked_account_id")
     private BankAccount bankAccount;
 
     @NotBlank
@@ -46,16 +45,8 @@ public class Transaction {
     private BigDecimal amount;
 
     @CreatedDate
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
+    private LocalDateTime transitionDate;
 
 
-
-    @PrePersist
-    public void prePersist() {
-        createdAt = LocalDateTime.now();
-    }
 
 }
