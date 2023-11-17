@@ -47,6 +47,4 @@ public class Transaction {
     @CreatedDate
     private LocalDateTime transitionDate;
 
-
-
 }
