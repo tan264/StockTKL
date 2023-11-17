@@ -1,5 +1,6 @@
 package com.example.stocktkl.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -53,18 +54,23 @@ public class User {
     private String country;
 
     @OneToMany(mappedBy = "user")
+    @JsonBackReference
     private List<Portfolio> portfolios;
 
     @OneToMany(mappedBy = "user")
+    @JsonBackReference
     private List<Order> orders;
 
     @OneToMany(mappedBy = "user")
+    @JsonBackReference
     private List<UserDevice> userDevices;
 
     @OneToMany(mappedBy = "user")
+    @JsonBackReference
     private List<BankAccount> bankAccounts;
 
     @OneToMany(mappedBy = "user")
+    @JsonBackReference
     private List<Transaction> transactions;
 
 

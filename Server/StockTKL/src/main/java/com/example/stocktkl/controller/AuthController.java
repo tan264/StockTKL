@@ -3,13 +3,15 @@ package com.example.stocktkl.controller;
 import com.example.stocktkl.payload.request.LoginRequest;
 import com.example.stocktkl.payload.request.SignupRequest;
 import com.example.stocktkl.payload.response.JwtResponse;
-import com.example.stocktkl.payload.response.MessageResponse;
 import com.example.stocktkl.service.impl.AuthServiceImpl;
+import com.example.stocktkl.service.impl.StockServiceImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -17,8 +19,11 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthServiceImpl authServiceImpl;
-    public AuthController(AuthServiceImpl authServiceImpl) {
+
+
+    public AuthController(AuthServiceImpl authServiceImpl ) {
         this.authServiceImpl = authServiceImpl;
+
     }
     @PostMapping("/signin")
     public ResponseEntity<JwtResponse> authenticate(@Valid @RequestBody LoginRequest loginRequest) {
@@ -29,5 +34,6 @@ public class AuthController {
     public ResponseEntity<JwtResponse> register(@Valid @RequestBody SignupRequest signupRequest) {
         return ResponseEntity.ok(authServiceImpl.register(signupRequest));
     }
+
 
 }

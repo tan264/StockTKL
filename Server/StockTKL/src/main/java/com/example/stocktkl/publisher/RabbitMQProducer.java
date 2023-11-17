@@ -31,8 +31,8 @@ public class RabbitMQProducer {
     }
 
     @PostMapping("/{stockName}")
-    public String bookOrder(OrderRequest order, String restaurantName) {
-        OrderStatus orderStatus = new OrderStatus(order, "PROCESS", "order placed succesfully in " + restaurantName);
+    public String bookOrder(OrderRequest order, String stockName) {
+        OrderStatus orderStatus = new OrderStatus(order, "PROCESS", "order placed succesfully in " + stockName);
         rabbitTemplate.convertAndSend(exchange, routingKey, orderStatus);
         return "Success !!";
     }

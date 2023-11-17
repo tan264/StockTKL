@@ -46,8 +46,4 @@ public class Portfolio {
     @CreatedDate
     private LocalDateTime purchaseDate;
 
-
-
-
-
 }

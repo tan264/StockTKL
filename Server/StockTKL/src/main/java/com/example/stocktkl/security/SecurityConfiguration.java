@@ -68,6 +68,7 @@ public class SecurityConfiguration {
                 .httpBasic(httpBasic -> httpBasic.disable())
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers(
+                                "/**",
                                         "/api/auth/**",
                                         "/v2/api-docs/**",
                                         "/v3/api-docs/**",

@@ -1,5 +1,6 @@
 package com.example.stocktkl.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -34,22 +35,25 @@ public class Stock {
 
     @NotBlank
     @Column(length = 100)
-    private String stockName;
+    private String companyName;
 
     private String industry;
 
     private String sector;
 
     @OneToMany(mappedBy = "stock")
+    @JsonBackReference
     private List<Portfolio> portfolios;
 
     @OneToMany(mappedBy = "stock")
+    @JsonBackReference
     private List<Quote> quotes;
 
     @OneToMany(mappedBy = "stock")
+    @JsonBackReference
     private List<Order> orders;
 
-    @ManyToMany(mappedBy = "watchlistedStocks")
+    @ManyToMany(mappedBy = "watchlistedStocks",fetch = FetchType.EAGER)
     private Set<User> users = new HashSet<>();
 
 }

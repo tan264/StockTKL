@@ -1,5 +1,6 @@
 package com.example.stocktkl.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -45,6 +46,7 @@ public class Quote {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stock_id", referencedColumnName = "symbol")
+    @JsonBackReference
     private Stock stock;
 
     @CreatedDate
