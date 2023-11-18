@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-public interface StockRepository extends JpaRepository<Stock, String> {
+public interface StockRepository extends JpaRepository<Stock, Long> {
     @Query("SELECT s, q " +
             "FROM Stock s " +
             "JOIN s.quotes q " +

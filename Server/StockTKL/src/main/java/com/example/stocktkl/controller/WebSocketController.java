@@ -25,6 +25,6 @@ public class WebSocketController {
     @MessageMapping("/realTime")
     @SendTo("/topic/public")
     public void sendMessage() throws JsonProcessingException {
-       stockServiceImpl.updateRealTimeStock();
+//       stockServiceImpl.updateRealTimeStock();
     }
 }

@@ -29,8 +29,11 @@ import java.util.Set;
 @Table(name="stocks")
 public class Stock {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long stockId;
+
     @NotBlank
-    @Column(unique = true)
+    @Column(length = 10, nullable = false)
     private String symbol;
 
     @NotBlank

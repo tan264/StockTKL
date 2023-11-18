@@ -45,7 +45,7 @@ public class Quote {
     private Integer volume;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "stock_id", referencedColumnName = "symbol")
+    @JoinColumn(name = "stock_id", referencedColumnName = "stockId")
     @JsonBackReference
     private Stock stock;
 

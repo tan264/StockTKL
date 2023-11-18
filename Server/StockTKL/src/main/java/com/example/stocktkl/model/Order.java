@@ -37,7 +37,7 @@ public class Order {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "stock_id", referencedColumnName = "symbol")
+    @JoinColumn(name = "stock_id", referencedColumnName = "stockId")
     @JsonBackReference
     private Stock stock;
 

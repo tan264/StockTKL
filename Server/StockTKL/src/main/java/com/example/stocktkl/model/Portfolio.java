@@ -32,7 +32,7 @@ public class Portfolio {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "stock_id", referencedColumnName = "symbol")
+    @JoinColumn(name = "stock_id", referencedColumnName = "stockId")
     private Stock stock;
 
     @NotBlank
