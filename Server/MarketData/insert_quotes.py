@@ -42,7 +42,7 @@ def insert_10k_records(n=26):
         db.execute_query(sql, values)        
     # print('Thêm dữ liệu thành công.')
 
-def insert_random_quotes():    
+def insert_random_quotes(delay=2):    
     while True:
         stock_id = random.randint(stock_id_from, stock_id_to)
         price = round(random.uniform(100, 1000), 2)
@@ -54,7 +54,7 @@ def insert_random_quotes():
         print("Inserting: ", values)        
         sql = "INSERT INTO quotes(stock_id, price, change_value, percent_change, volume, time_stamp) VALUES (?, ?, ?, ?, ?, ?)"
         db.execute_query(sql, values)        
-        time.sleep(5)
+        time.sleep(delay)
 
 if(arguments == "new"):
     insert_10k_records(100)

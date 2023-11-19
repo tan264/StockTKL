@@ -83,7 +83,6 @@ class HomeController extends GetxController {
           isFirstSecond.value = true;
           // printInfo(info: "real-time quotes:\n ${realtimeQuotes.toString()}");
           Timer(const Duration(seconds: 1), () {
-            logger.i("het 1s");
             isFirstSecond.value = false;
           });
         } else {

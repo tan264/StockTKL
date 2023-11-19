@@ -89,20 +89,22 @@ class StockMarketPage extends GetView<HomeController> {
   }
 
   DataCell customDataCell(String value, {int isChange = 0}) {
-    Color? color;
+    TextStyle? style;
     if (controller.isFirstSecond.value && isChange == 1) {
-      color = Colors.green;
+      style = const TextStyle(color: Colors.green);
     } else if (controller.isFirstSecond.value && isChange == -1) {
-      color = Colors.red;
+      style = const TextStyle(color: Colors.red);
     }
     return DataCell(
       SizedBox.expand(
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 2),
-          color: color,
           child: Align(
             alignment: AlignmentDirectional.centerStart,
-            child: Text(value),
+            child: Text(
+              value,
+              style: style,
+            ),
           ),
         ),
       ),
