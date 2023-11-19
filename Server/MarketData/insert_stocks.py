@@ -62,9 +62,5 @@ for i in range(26):
     params = (symbol, company_name, sector, industry)
     db.execute_query(query, params)
 
-    # print(f"Đã insert bản ghi: {i}")
-    # print(f"Mã cổ phiếu: {symbol}, Tên công ty: {company_name}, Ngành: {sector}, Lĩnh vực: {industry}")
-print('''\nTết Trung Thu rước đèn đi chơi
-Em rước đèn đi khắp phố phường
-Lòng vui sướng với đèn trong tay
-Em múa ca trong ánh trăng rằm.''')  
+    print(f"Đã insert bản ghi: {i}")
+    print(f"Mã cổ phiếu: {symbol}, Tên công ty: {company_name}, Ngành: {sector}, Lĩnh vực: {industry}")

@@ -1,10 +1,15 @@
 from datetime import datetime, timedelta
 import random, time
 from database import Database
+import sys
 
 db = Database()
 stock_id_from = 1
 stock_id_to = 26
+
+arguments = "17"
+if len(sys.argv) > 1:
+    arguments = sys.argv[1]
 
 def insert_10k_records(n=26):        
     # Kiểm tra số lượng bản ghi hiện có trong bảng        
@@ -33,7 +38,7 @@ def insert_10k_records(n=26):
 
         sql = "INSERT INTO quotes (stock_id, price, change_value, percent_change, volume, time_stamp) VALUES (?, ?, ?, ?, ?, ?)"
         values = (stock_id, price, change_value, percent_change, volume, time_stamp)
-        # print("Inserting: ", values)
+        print("Inserting: ", values)
         db.execute_query(sql, values)        
     # print('Thêm dữ liệu thành công.')
 
@@ -41,21 +46,17 @@ def insert_random_quotes():
     while True:
         stock_id = random.randint(stock_id_from, stock_id_to)
         price = round(random.uniform(100, 1000), 2)
-        change = round(random.uniform(-50, 50), 2)
+        change_value = round(random.uniform(-50, 50), 2)
         percent_change = round(random.uniform(-5, 5), 2)
         volume = random.randint(1000, 10000)
         time_stamp = datetime.now()
-        values = (stock_id, price, change, percent_change, volume, time_stamp)
+        values = (stock_id, price, change_value, percent_change, volume, time_stamp)
         print("Inserting: ", values)        
-        sql = "INSERT INTO quotes(stock_id, price, change, percent_change, volume, time_stamp) VALUES (?, ?, ?, ?, ?, ?)"
+        sql = "INSERT INTO quotes(stock_id, price, change_value, percent_change, volume, time_stamp) VALUES (?, ?, ?, ?, ?, ?)"
         db.execute_query(sql, values)        
         time.sleep(5)
 
-insert_10k_records(100)
-#insert_random_quotes()
-print('''Đèn ông sao với đèn cá chép
-Đèn thiên nga với đèn bướm bướm
-Em rước đèn này đến cung trăng
-Đèn xanh lơ với đèn tím tím
-Đèn xanh lam với đèn trắng trắng
-Trong ánh đèn rực rỡ muôn màu.''')
+if(arguments == "new"):
+    insert_10k_records(100)
+else:
+    insert_random_quotes()

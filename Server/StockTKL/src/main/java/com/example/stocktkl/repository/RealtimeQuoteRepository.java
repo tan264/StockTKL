@@ -22,11 +22,12 @@ public class RealtimeQuoteRepository {
 
     public List<RealtimeQuote> getRealtimeQuote() {
         String sql = """
-                select s.symbol, s.company_name, s.industry, s.sector, q.price, q.change_value, q.percent_change, q.volume
-                from quotes as q
-                left join stock_tkl.stocks s on s.stock_id = q.stock_id
-                where q.time_stamp >= (select max(time_stamp) from quotes where stock_id = q.stock_id)
-                """;
+        select s.symbol, s.company_name, s.industry, s.sector, q.price, q.change_value, q.percent_change, q.volume
+        from quotes as q
+        left join stock_tkl.stocks s on s.stock_id = q.stock_id
+        where q.time_stamp >= (select max(time_stamp) from quotes where stock_id = q.stock_id)
+        order by s.stock_id
+        """;
         return jdbcTemplate.query(sql, new RealtimeQuoteRowMapper());
     }
 

@@ -34,7 +34,6 @@ public class RealtimeQuoteService implements IRealtimeQuoteService {
     }
 
     @Scheduled(initialDelay = 1000, fixedDelay = 5000)
-    @Override
     public void getRealtimeQuote() {
         String topic = "/topic/muaxuandautien";
         List<RealtimeQuote> result = realtimeQuoteRepository.getRealtimeQuote();
@@ -45,5 +44,10 @@ public class RealtimeQuoteService implements IRealtimeQuoteService {
         } catch (JsonProcessingException exception) {
             log.info(exception.getMessage());
         }
+    }
+
+    @Override
+    public List<RealtimeQuote> getQuotes() {
+        return realtimeQuoteRepository.getRealtimeQuote();
     }
 }

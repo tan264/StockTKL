@@ -5,11 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import lombok.Data;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -17,6 +12,7 @@ import lombok.AllArgsConstructor;
 public class MessageResponse {
     private int statusCode;  // Trường status code
     private String message;
+    private Object data;
 
     public enum StatusCode {
         OK(200, "OK"),
