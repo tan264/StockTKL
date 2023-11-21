@@ -56,7 +56,7 @@ public class Stock {
     @JsonBackReference
     private List<Order> orders;
 
-    @ManyToMany(mappedBy = "watchlistedStocks",fetch = FetchType.EAGER)
-    private Set<User> users = new HashSet<>();
+//    @ManyToMany(mappedBy = "watchlistedStocks",fetch = FetchType.EAGER)
+//    private Set<User> users = new HashSet<>();
 
 }

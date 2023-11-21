@@ -32,7 +32,7 @@ public class TestController {
         List<Object[]> realTimeQuotes = stockService.getRealTimeQuote();
 
         String jsonMessage = objectMapper.writeValueAsString(realTimeQuotes);
-        return ResponseEntity.ok(jsonMessage);
+        return ResponseEntity.ok(realTimeQuotes);
     }
 
 }

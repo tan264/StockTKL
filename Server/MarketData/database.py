@@ -2,11 +2,11 @@ import pyodbc
 
 class Database:
     def __init__(self):
-        self.server_name = 'localhost'
+        self.server_name = 'db'
         self.database_name = 'stock_tkl'
         self.port = '3306'
-        self.username = 'root'
-        self.password = '***REMOVED***'
+        self.username = 'tan264'
+        self.password = '123456'
         self.driver= 'MySQL ODBC 8.2 ANSI Driver'                
         self.connection_string = ('DRIVER={driver};'
                                   'SERVER={server_name},{port};'
@@ -21,6 +21,7 @@ class Database:
                                         username=self.username,
                                         password=self.password
                                     )    
+        print("Connection String:", self.connection_string)
         self.conn = pyodbc.connect(self.connection_string)
         self.conn.setdecoding(pyodbc.SQL_CHAR, encoding='utf-8')
         self.conn.setdecoding(pyodbc.SQL_WCHAR, encoding='utf-8')
