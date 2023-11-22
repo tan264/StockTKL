@@ -1,24 +1,23 @@
-FROM python:3.11-slim-buster
+FROM python:3.11
 
 WORKDIR /src
 
 COPY . /src
 
 RUN apt-get update && \
-    apt-get install -y gcc libpq5 unixodbc default-libmysqlclient-dev odbcinst  && \
+    apt-get install -y gcc libpq5 unixodbc default-libmysqlclient-dev odbcinst wget && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     pip install --upgrade pip && \
     pip install pyodbc faker
-#
-## Download and install MySQL ODBC driver
-#RUN apt-get install -y wget && \
-#    wget https://dev.mysql.com/get/Downloads/Connector-ODBC/8.0/mysql-connector-odbc_8.0.28-1debian10_amd64.deb && \
-#    dpkg -i mysql-connector-odbc_8.0.28-1debian10_amd64.deb && \
-#    rm mysql-connector-odbc_8.0.28-1debian10_amd64.deb
+
+
+RUN wget https://dev.mysql.com/get/Downloads/Connector-ODBC/8.2/mysql-connector-odbc-8.2.0-linux-glibc2.28-x86-64bit.tar.gz && \
+    tar -xvf mysql-connector-odbc-8.2.0-linux-glibc2.28-x86-64bit.tar.gz && \
+    rm mysql-connector-odbc-8.2.0-linux-glibc2.28-x86-64bit.tar.gz
 
 # Configure ODBC
-COPY odbcinst.ini /etc/odbcinst.ini
+COPY odbcinst.ini /etc/odbc.ini
 
 CMD ["python", "insert_quotes.py"]
