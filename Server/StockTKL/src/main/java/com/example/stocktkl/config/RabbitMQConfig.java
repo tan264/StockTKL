@@ -10,18 +10,30 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    @Value("${rabbitmq.queue.name}")
-    private String queue;
+    @Value("${rabbitmq.sellQueue.name}")
+    private String sellQueue;
+
+    @Value("${rabbitmq.buyLimitQueue.name}")
+    private String buyQueue;
 
     @Value("${rabbitmq.exchange.name}")
     private String exchange;
 
-    @Value("${rabbitmq.routing.key}")
-    private String routingKey;
+    @Value("${rabbitmq.sellRouting.key}")
+    private String sellRoutingKey;
+
+    @Value("${rabbitmq.buyLimitRouting.key}")
+    private String buyRoutingKey;
+
 
     @Bean
-    public Queue queue() {
-        return new Queue(queue);
+    public Queue sellQueue() {
+        return new Queue(sellQueue);
+    }
+
+    @Bean
+    public Queue buyQueue() {
+        return new Queue(buyQueue);
     }
 
     @Bean
@@ -29,9 +41,15 @@ public class RabbitMQConfig {
         return new TopicExchange(exchange);
     }
 
+
     @Bean
-    public Binding binding(Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(routingKey);
+    public Binding sellBinding(Queue sellQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(sellQueue).to(exchange).with(sellRoutingKey);
+    }
+
+    @Bean
+    public Binding buyBinding(Queue buyQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(buyQueue).to(exchange).with(buyRoutingKey);
     }
 
     @Bean

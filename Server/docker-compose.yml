@@ -22,7 +22,7 @@ services:
     image: mysql
     restart: unless-stopped
     volumes:
-      - ./devops/data:/var/lib/data
+      - ./devops/data:/var/lib/mysql
     ports:
       - "3306:3306"
     environment:

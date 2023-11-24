@@ -1,17 +1,13 @@
 package com.example.stocktkl.publisher;
 
-import com.example.stocktkl.model.Order;
 import com.example.stocktkl.payload.request.OrderRequest;
-import com.example.stocktkl.payload.response.OrderStatus;
+import com.example.stocktkl.payload.SellStatusMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/order")
@@ -21,7 +17,7 @@ public class RabbitMQProducer {
     @Value("${rabbitmq.exchange.name}")
     private String exchange;
 
-    @Value("${rabbitmq.routing.key}")
+    @Value("${rabbitmq.buyLimitRouting.key}")
     private String routingKey;
 
     private final RabbitTemplate rabbitTemplate;
@@ -32,8 +28,8 @@ public class RabbitMQProducer {
 
     @PostMapping("/{stockName}")
     public String bookOrder(OrderRequest order, String stockName) {
-        OrderStatus orderStatus = new OrderStatus(order, "PROCESS", "order placed succesfully in " + stockName);
-        rabbitTemplate.convertAndSend(exchange, routingKey, orderStatus);
+        SellStatusMessage sellStatusMessage = new SellStatusMessage();
+        rabbitTemplate.convertAndSend(exchange, routingKey, sellStatusMessage);
         return "Success !!";
     }
 }

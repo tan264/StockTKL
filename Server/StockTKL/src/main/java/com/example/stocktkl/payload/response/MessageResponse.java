@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MessageResponse {
-    private int statusCode;  // Trường status code
+    private int statusCode;
     private String message;
     private Object data;
 

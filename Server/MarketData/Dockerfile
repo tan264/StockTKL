@@ -1,23 +1,24 @@
-FROM python:3.11
+FROM python:3.12.0-slim-bookworm
 
-WORKDIR /src
+WORKDIR /usr/src/app
 
-COPY . /src
+COPY requirements.txt ./
+COPY entrypoint.sh ./entrypoint.sh
+COPY . ./
 
-RUN apt-get update && \
-    apt-get install -y gcc libpq5 unixodbc default-libmysqlclient-dev odbcinst wget && \
-    apt-get autoremove -y && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    pip install --upgrade pip && \
-    pip install pyodbc faker
+RUN apt-get update && apt-get install -y \
+    unixodbc \
+    unixodbc-dev
 
+# Install MySql ODBC
+ADD https://cdn.mysql.com//Downloads/Connector-ODBC/8.2/mysql-connector-odbc-8.2.0-linux-glibc2.28-x86-64bit.tar.gz .
+RUN tar -C . -xzvf mysql-connector-odbc-8.2.0-linux-glibc2.28-x86-64bit.tar.gz
+RUN cp -r mysql-connector-odbc-8.2.0-linux-glibc2.28-x86-64bit/bin/* /usr/local/bin
+RUN cp -r mysql-connector-odbc-8.2.0-linux-glibc2.28-x86-64bit/lib/* /usr/local/lib
+RUN myodbc-installer -a -d -n "MySQL ODBC 8.2 ANSI Driver" -t "Driver=/usr/local/lib/libmyodbc8a.so"
+RUN myodbc-installer -d -l
 
-RUN wget https://dev.mysql.com/get/Downloads/Connector-ODBC/8.2/mysql-connector-odbc-8.2.0-linux-glibc2.28-x86-64bit.tar.gz && \
-    tar -xvf mysql-connector-odbc-8.2.0-linux-glibc2.28-x86-64bit.tar.gz && \
-    rm mysql-connector-odbc-8.2.0-linux-glibc2.28-x86-64bit.tar.gz
+# Install python library
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Configure ODBC
-COPY odbcinst.ini /etc/odbc.ini
-
-CMD ["python", "insert_quotes.py"]
+CMD ["./entrypoint.sh"]

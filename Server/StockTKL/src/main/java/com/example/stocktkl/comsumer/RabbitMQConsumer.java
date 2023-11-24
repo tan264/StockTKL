@@ -1,6 +1,6 @@
 package com.example.stocktkl.comsumer;
 
-import com.example.stocktkl.payload.response.OrderStatus;
+import com.example.stocktkl.payload.SellStatusMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class RabbitMQConsumer {
 
-    @RabbitListener(queues = {"${rabbitmq.queue.name}"})
-    public void consumeMessageFromQueue(OrderStatus orderStatus) {
-        System.out.println("Message recieved from queue : " + orderStatus);
+    @RabbitListener(queues = {"${rabbitmq.buyLimitQueue.name}"})
+    public void consumeMessageFromQueue(SellStatusMessage sellStatusMessage) {
+        System.out.println("Message recieved from queue : " + sellStatusMessage);
     }
 }

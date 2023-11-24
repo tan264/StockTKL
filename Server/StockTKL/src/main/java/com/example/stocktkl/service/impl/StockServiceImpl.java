@@ -27,13 +27,7 @@ public class StockServiceImpl implements StockService {
         this.template = template;
         this.objectMapper = objectMapper;
     }
-//    @Scheduled(fixedRate = 5000)
-//    public void updateRealTimeStock() throws JsonProcessingException {
-//        List<Object[]> realTimeStock = getRealTimeQuote();
-//        log.info("stocks : {}", realTimeStock);
-//        String jsonMessage = objectMapper.writeValueAsString(realTimeStock);
-//        template.convertAndSend("/topic/realTime", jsonMessage);
-//    }
+
 
     public List<Object[]> getRealTimeQuote() {
         return stockRepository.getStockWithLatestQuote();

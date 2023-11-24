@@ -1,5 +1,6 @@
 package com.example.stocktkl.payload.request;
 
+import com.example.stocktkl.model.enum_class.EOrderType;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -10,7 +11,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BuyLimitRequest {
+public class LimitBuyRequest {
 
     @NotBlank
     private String symbol;
@@ -23,5 +24,11 @@ public class BuyLimitRequest {
     @NotBlank
     @DecimalMin("0.00")
     private BigDecimal price;
+
+    private String industry;
+
+    private String sector;
+
+    private EOrderType orderType;
 
 }

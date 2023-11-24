@@ -7,7 +7,7 @@ class Database:
         self.port = '3306'
         self.username = 'tan264'
         self.password = '123456'
-        self.driver= 'MySQL ODBC 8.2 ANSI Driver'                
+        self.driver= 'MySQL ODBC 8.2 ANSI Driver'
         self.connection_string = ('DRIVER={driver};'
                                   'SERVER={server_name},{port};'
                                   'DATABASE={database_name};'
@@ -20,13 +20,13 @@ class Database:
                                         database_name=self.database_name,
                                         username=self.username,
                                         password=self.password
-                                    )    
+                                    )
         print("Connection String:", self.connection_string)
         self.conn = pyodbc.connect(self.connection_string)
         self.conn.setdecoding(pyodbc.SQL_CHAR, encoding='utf-8')
         self.conn.setdecoding(pyodbc.SQL_WCHAR, encoding='utf-8')
         self.conn.setencoding(encoding='utf-8')
-        self.cursor = self.conn.cursor()    
+        self.cursor = self.conn.cursor()
 
 
     def execute_query(self, query, params):

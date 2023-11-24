@@ -1,17 +1,15 @@
 package com.example.stocktkl.payload.request;
 
-import jakarta.validation.constraints.DecimalMin;
+import com.example.stocktkl.model.enum_class.EOrderType;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BuyMarketRequest {
+public class MarketBuyRequest {
 
     @NotBlank
     private String symbol;
@@ -22,4 +20,9 @@ public class BuyMarketRequest {
     @NotBlank
     private Integer quantity;
 
+    private String industry;
+
+    private String sector;
+
+    private EOrderType orderType;
 }
