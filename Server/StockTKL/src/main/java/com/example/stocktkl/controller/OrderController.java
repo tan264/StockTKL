@@ -20,14 +20,14 @@ public class OrderController {
     public OrderController(OrderServiceImpl orderServiceImpl) {
         this.orderServiceImpl = orderServiceImpl;
     }
-    @PostMapping("/buy-limit")
-    public void processBuyLimit(LimitBuyRequest request) {
+    @PostMapping("/limit-buy")
+    public void processLimitBuy(LimitBuyRequest request) {
 
         orderServiceImpl.processLimitBuy(request);
     }
 
-    @PostMapping("/buy-market")
-    public void processBuyMarket(LimitBuyRequest request) {
+    @PostMapping("/market-buy")
+    public void processMarketBuy(LimitBuyRequest request) {
 
         orderServiceImpl.processLimitBuy(request);
     }
