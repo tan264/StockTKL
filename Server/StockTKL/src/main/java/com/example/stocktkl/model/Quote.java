@@ -9,12 +9,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import java.math.BigDecimal;
-
 import java.time.LocalDateTime;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -25,6 +22,9 @@ public class Quote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long quoteId;
+
+    @Column(name = "stock_id")
+    private Long stockId;
 
     @NotBlank
     @Column(precision = 10, scale = 4)
@@ -45,11 +45,11 @@ public class Quote {
     private Integer volume;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "stock_id", referencedColumnName = "stockId")
+    @JoinColumn(name = "stock_id", insertable = false, updatable = false)
     @JsonBackReference
     private Stock stock;
 
-    @CreatedDate
-    private LocalDateTime timeStamp;
+//    @CreatedDate
+    private LocalDateTime timeStamp = LocalDateTime.now();
 
 }

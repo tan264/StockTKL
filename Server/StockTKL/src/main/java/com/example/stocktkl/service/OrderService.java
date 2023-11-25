@@ -11,6 +11,5 @@ public interface OrderService {
     public BigDecimal getMarketPrice(String symbol) ;
     public void processLimitBuy(LimitBuyRequest request) ;
     public OrderResponse executeMarketBuy(MarketBuyRequest request) ;
-
     public void processSell(SellRequest request);
 }

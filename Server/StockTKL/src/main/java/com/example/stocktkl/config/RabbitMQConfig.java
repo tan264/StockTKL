@@ -1,4 +1,8 @@
 package com.example.stocktkl.config;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -7,13 +11,14 @@ import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 @Configuration
 public class RabbitMQConfig {
 
     @Value("${rabbitmq.sellQueue.name}")
     private String sellQueue;
 
-    @Value("${rabbitmq.buyLimitQueue.name}")
+    @Value("${rabbitmq.buyQueue.name}")
     private String buyQueue;
 
     @Value("${rabbitmq.exchange.name}")
@@ -22,9 +27,8 @@ public class RabbitMQConfig {
     @Value("${rabbitmq.sellRouting.key}")
     private String sellRoutingKey;
 
-    @Value("${rabbitmq.buyLimitRouting.key}")
+    @Value("${rabbitmq.buyRouting.key}")
     private String buyRoutingKey;
-
 
     @Bean
     public Queue sellQueue() {
@@ -37,24 +41,30 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public TopicExchange exchange() {
-        return new TopicExchange(exchange);
+    public DirectExchange exchange() {
+        return new DirectExchange(exchange);
     }
 
-
     @Bean
-    public Binding sellBinding(Queue sellQueue, TopicExchange exchange) {
+    public Binding sellBinding(Queue sellQueue, DirectExchange exchange) {
         return BindingBuilder.bind(sellQueue).to(exchange).with(sellRoutingKey);
     }
 
     @Bean
-    public Binding buyBinding(Queue buyQueue, TopicExchange exchange) {
+    public Binding buyBinding(Queue buyQueue, DirectExchange exchange) {
         return BindingBuilder.bind(buyQueue).to(exchange).with(buyRoutingKey);
     }
 
     @Bean
+    public ObjectMapper objectMapper() {
+        return JsonMapper.builder()
+                .addModule(new JavaTimeModule())
+                .build();
+    }
+
+    @Bean
     public MessageConverter converter() {
-        return new Jackson2JsonMessageConverter();
+        return new Jackson2JsonMessageConverter(objectMapper());
     }
 
     @Bean
