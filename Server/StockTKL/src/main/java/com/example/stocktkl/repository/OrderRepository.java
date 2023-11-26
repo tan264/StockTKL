@@ -2,11 +2,12 @@ package com.example.stocktkl.repository;
 
 import com.example.stocktkl.model.Order;
 import com.example.stocktkl.model.enum_class.ERole;
+import com.example.stocktkl.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.math.BigDecimal;
-import java.util.Optional;
+import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long>
 {
@@ -17,5 +18,7 @@ public interface OrderRepository extends JpaRepository<Order, Long>
             "ORDER BY q.timeStamp DESC " +
             "LIMIT 1")
     BigDecimal getPrice(String symbol);
+
+    List<Order> findByUser(User user);
 }
 
