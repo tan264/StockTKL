@@ -1,9 +1,12 @@
 import 'dart:ffi';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stock_tkl/main.dart';
+import 'package:stock_tkl/models/stock_data.dart';
 import 'package:stock_tkl/pages/home/controller.dart';
+import 'package:stock_tkl/pages/home/market/stock_market/detail.dart';
 
 class StockMarketPage extends GetView<HomeController> {
   StockMarketPage({super.key});
@@ -52,12 +55,13 @@ class StockMarketPage extends GetView<HomeController> {
                   } else {
                     logger.i("refresh");
                     return DataTable(
+                      showCheckboxColumn: false,
                       dividerThickness: 1.0, // Độ dày của đường phân cách
                       columns: const [
                         DataColumn(label: Text('Symbol')),
                         DataColumn(label: Text('Price')),
                         DataColumn(label: Text('+/-')),
-                        DataColumn(label: Text('+/- %')),
+                        DataColumn(label: Text('+/-(%)')),
                         DataColumn(label: Text('TotalVol')),
                       ],
                       rows: controller.realtimeQuotes
@@ -81,6 +85,89 @@ class StockMarketPage extends GetView<HomeController> {
                   }
                 },
               ),
+              // child: DataTable(
+              //   showCheckboxColumn: false,
+              //   dividerThickness: 1.0,
+              //   columns: const [
+              //     DataColumn(label: Text('Symbol')),
+              //     DataColumn(label: Text('Price')),
+              //     DataColumn(label: Text('+/-')),
+              //     DataColumn(label: Text('+/-(%)')),
+              //     DataColumn(label: Text('TotalVol')),
+              //   ],
+              //   rows: [
+              //     DataRow(
+              //         onSelectChanged: (bool? selected) {
+              //           if (selected == true) {
+              //             final stockData = generateStockData();
+              //             Navigator.push(
+              //               context,
+              //               MaterialPageRoute(
+              //                 builder: (context) => StockDetailPage(
+              //                   stockSymbol: 'ABC',
+              //                   stockPrice: 123.1,
+              //                   stockData: stockData,
+              //                 ),
+              //               ),
+              //             );
+              //           }
+              //         },
+              //         cells: const [
+              //           DataCell(Text('ABC')),
+              //           DataCell(Text('123.1')),
+              //           DataCell(Text('12.3')),
+              //           DataCell(Text('11.0')),
+              //           DataCell(Text('12345')),
+              //         ]),
+              //     DataRow(
+              //         onSelectChanged: (bool? selected) {
+              //           if (selected == true) {
+              //             final stockData = generateStockData();
+              //             Navigator.push(
+              //               context,
+              //               MaterialPageRoute(
+              //                 builder: (context) => StockDetailPage(
+              //                   stockSymbol: 'ZZ',
+              //                   stockPrice: 123.1,
+              //                   stockData: stockData,
+              //                 ),
+              //               ),
+              //             );
+              //           }
+              //         },
+              //         cells: const [
+              //           DataCell(Text('ZZ')),
+              //           DataCell(Text('123.1')),
+              //           DataCell(Text('12.3')),
+              //           DataCell(Text('11.0')),
+              //           DataCell(Text('12345')),
+              //         ]),
+              //     DataRow(
+              //         onSelectChanged: (bool? selected) {
+              //           if (selected == true) {
+              //             final stockData = generateStockData();
+
+              //             Navigator.push(
+              //               context,
+              //               MaterialPageRoute(
+              //                 builder: (context) => StockDetailPage(
+              //                   stockSymbol: 'XYZ',
+              //                   stockPrice: 123.1,
+              //                   stockData: stockData,
+              //                 ),
+              //               ),
+              //             );
+              //           }
+              //         },
+              //         cells: const [
+              //           DataCell(Text('XYZ')),
+              //           DataCell(Text('123.1')),
+              //           DataCell(Text('12.3')),
+              //           DataCell(Text('11.0')),
+              //           DataCell(Text('12345')),
+              //         ]),
+              //   ],
+              // ),
             ),
           ),
         )
@@ -111,3 +198,11 @@ class StockMarketPage extends GetView<HomeController> {
     );
   }
 }
+
+// List<StockData> generateStockData() {
+//   return List.generate(7, (index) {
+//     final date = DateTime.now().subtract(Duration(days: index));
+//     final double price = (Random().nextDouble() * 100).clamp(50, 150);
+//     return StockData(date, price);
+//   }).reversed.toList();
+// }
