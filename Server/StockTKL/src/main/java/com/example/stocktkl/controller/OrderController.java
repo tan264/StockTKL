@@ -31,7 +31,7 @@ public class OrderController {
 //        if (authentication != null && authentication.isAuthenticated()) {
 //            orderRequest.setUserId(authentication.getName());
 //        }
-        // Need to get userId from authentication
+        // TODO: 26/11/2023 Need to get userId from authentication
         Long stockId;
         try {
             stockId = orderService.getStockIdBySymbol(orderRequest.getStockSymbol());

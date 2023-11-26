@@ -119,11 +119,14 @@ public class TradingService implements ITradingService {
                 EOrderDirection.SELL,
                 EOrderStatus.PENDING);
         for (Order sellOrder : sellPendingOrders) {
+            if (sellOrder.getUserId().compareTo(order.getUserId()) == 0)
+                continue;
             if (sellOrder.getPrice().compareTo(order.getPrice()) > 0)
                 return;
             else if (sellOrder.getPrice().compareTo(
                     order.getPrice()) <= 0 && sellOrder.getQuantity() >= order.getQuantity()) {
                 order.setStatus(EOrderStatus.COMPLETED);
+                order.setOrderDate(LocalDateTime.now());
 
                 int reamingQuantity = sellOrder.getQuantity() - order.getQuantity();
                 if (reamingQuantity == 0)
@@ -131,6 +134,7 @@ public class TradingService implements ITradingService {
                 else {
                     sellOrder.setQuantity(reamingQuantity);
                 }
+                sellOrder.setOrderDate(LocalDateTime.now());
                 BigDecimal purchasePrice = sellOrder.getPrice();
                 Portfolio buyerPortfolio = createNewPortfolio(order, purchasePrice, 0,
                         order.getQuantity());
@@ -174,11 +178,14 @@ public class TradingService implements ITradingService {
                 EOrderDirection.BUY,
                 EOrderStatus.PENDING);
         for (Order buyOrder : buyPendingOrders) {
+            if (buyOrder.getUserId().compareTo(order.getUserId()) == 0)
+                continue;
             if (buyOrder.getPrice().compareTo(order.getPrice()) < 0)
                 return;
             else if (buyOrder.getPrice().compareTo(
                     order.getPrice()) >= 0 && buyOrder.getQuantity() >= order.getQuantity()) {
                 order.setStatus(EOrderStatus.COMPLETED);
+                order.setOrderDate(LocalDateTime.now());
 
                 int reamingQuantity = buyOrder.getQuantity() - order.getQuantity();
                 if (reamingQuantity == 0)
@@ -186,6 +193,7 @@ public class TradingService implements ITradingService {
                 else {
                     buyOrder.setQuantity(reamingQuantity);
                 }
+                buyOrder.setOrderDate(LocalDateTime.now());
                 BigDecimal purchasePrice = buyOrder.getPrice();
                 Portfolio buyerPortfolio = createNewPortfolio(buyOrder, purchasePrice, 0,
                         order.getQuantity());
