@@ -12,5 +12,5 @@ import java.util.Optional;
  */
 @Repository
 public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
-    Optional<Portfolio> findByStockId(Long stockId);
+    Optional<Portfolio> findByStockIdAndUserId(Long stockId, Long userId);
 }

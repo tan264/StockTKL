@@ -46,24 +46,26 @@ public class OrderService implements IOrderService {
 
     @Override
     public boolean sendToJadeRabbit(Order order) {
+        Order savedOrder = orderRepository.save(order);
         if (order.getDirection() == EOrderDirection.BUY) {
-            log.info("Send to BUY QUEUE: " + order);
-            rabbitTemplate.convertAndSend(exchange, buyRoutingKey, order);
+            log.info("Send to BUY QUEUE: " + savedOrder);
+            rabbitTemplate.convertAndSend(exchange, buyRoutingKey, savedOrder);
         } else {
-            log.info("Send to SELL QUEUE: " + order);
-            rabbitTemplate.convertAndSend(exchange, sellRoutingKey, order);
+            log.info("Send to SELL QUEUE: " + savedOrder);
+            rabbitTemplate.convertAndSend(exchange, sellRoutingKey, savedOrder);
         }
-        orderRepository.save(order);
+
 
         return true;
     }
 
     @Override
-    public boolean canExecuteSellRequest(Long stockId, Integer quantity) {
+    public boolean canExecuteSellRequest(Long stockId, Long userId, Integer quantity) {
         try {
-            Portfolio portfolio = portfolioRepository.findByStockId(stockId).orElseThrow(
-                    RuntimeException::new);
-            if (portfolio.getQuantity() >= quantity) {
+            Portfolio portfolios = portfolioRepository.findByStockIdAndUserId(stockId,
+                    userId).orElseThrow(RuntimeException::new);
+            int totalQuantity = portfolios.getQuantity();
+            if (totalQuantity >= quantity) {
                 return true;
             }
         } catch (Exception e) {

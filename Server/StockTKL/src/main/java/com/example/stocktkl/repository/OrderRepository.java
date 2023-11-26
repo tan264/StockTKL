@@ -20,6 +20,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "LIMIT 1")
     BigDecimal getPrice(String symbol);
 
-    List<Order> findAllByDirectionAndStatus(EOrderDirection direction, EOrderStatus status);
+    List<Order> findAllByDirectionAndStatusOrderByPriceDesc(EOrderDirection direction, EOrderStatus status);
+    List<Order> findAllByDirectionAndStatusOrderByPriceAsc(EOrderDirection direction, EOrderStatus status);
 }
 

@@ -9,7 +9,7 @@ import com.example.stocktkl.model.Order;
 public interface IOrderService {
     boolean sendToJadeRabbit(Order order);
 
-    boolean canExecuteSellRequest(Long stockId, Integer quantity);
+    boolean canExecuteSellRequest(Long userId, Long stockId, Integer quantity);
 
     Long getStockIdBySymbol(String symbol);
 }

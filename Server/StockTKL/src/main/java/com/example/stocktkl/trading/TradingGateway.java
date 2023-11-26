@@ -25,6 +25,7 @@ public class TradingGateway {
         try {
             tradingService.handleBuyRequest(order);
         } catch (Exception e) {
+            e.printStackTrace();
             log.severe("Error processing buy request: " + e.getMessage());
         }
     }

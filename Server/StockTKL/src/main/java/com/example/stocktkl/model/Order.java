@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = {"user", "stock"})
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

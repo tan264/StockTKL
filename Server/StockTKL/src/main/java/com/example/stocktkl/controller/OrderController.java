@@ -42,7 +42,7 @@ public class OrderController {
                             orderRequest));
         }
         if (orderRequest.getDirection() == EOrderDirection.SELL && !orderService.canExecuteSellRequest(
-                stockId, orderRequest.getQuantity())) {
+                stockId, orderRequest.getUserId() ,orderRequest.getQuantity())) {
             return ResponseEntity.badRequest().body(
                     new MessageResponse(HttpStatus.BAD_REQUEST.value(),
                             "You don't have enough stock to sell",
