@@ -40,7 +40,7 @@ public class Quote {
     @JsonBackReference
     private Stock stock;
 
-    //    @CreatedDate
+//    @CreatedDate
     private LocalDateTime timeStamp = LocalDateTime.now();
 
 }

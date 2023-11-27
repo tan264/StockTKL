@@ -22,7 +22,6 @@ public class RealtimeQuoteService implements IRealtimeQuoteService {
 
     private final RealtimeQuoteRepository realtimeQuoteRepository;
     private final SimpMessagingTemplate messagingTemplate;
-
     private final ObjectMapper objectMapper;
 
     public RealtimeQuoteService(RealtimeQuoteRepository realtimeQuoteRepository,

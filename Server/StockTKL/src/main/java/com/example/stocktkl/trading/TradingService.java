@@ -115,9 +115,10 @@ public class TradingService implements ITradingService {
     }
 
     private void handleLimitBuyOrder(Order order) {
-        List<Order> sellPendingOrders = orderRepository.findAllByDirectionAndStatusOrderByPriceAsc(
+        List<Order> sellPendingOrders = orderRepository.findAllByDirectionAndStatusAndStockIdOrderByPriceAsc(
                 EOrderDirection.SELL,
-                EOrderStatus.PENDING);
+                EOrderStatus.PENDING,
+                order.getStockId());
         for (Order sellOrder : sellPendingOrders) {
             if (sellOrder.getUserId().compareTo(order.getUserId()) == 0)
                 continue;
@@ -174,9 +175,9 @@ public class TradingService implements ITradingService {
     }
 
     private void handleLimitSellOrder(Order order) {
-        List<Order> buyPendingOrders = orderRepository.findAllByDirectionAndStatusOrderByPriceDesc(
+        List<Order> buyPendingOrders = orderRepository.findAllByDirectionAndStatusAndStockIdOrderByPriceDesc(
                 EOrderDirection.BUY,
-                EOrderStatus.PENDING);
+                EOrderStatus.PENDING, order.getStockId());
         for (Order buyOrder : buyPendingOrders) {
             if (buyOrder.getUserId().compareTo(order.getUserId()) == 0)
                 continue;

@@ -30,10 +30,10 @@ def insert_first_quotes(n=26):
         sql = "INSERT INTO quotes (stock_id, price, change_value, percent_change, volume, time_stamp) VALUES (?, ?, ?, ?, ?, ?)"
         values = (stock_id, price, change_value, percent_change, volume, time_stamp)
         print("Inserting: ", values)
-        db.execute_query(sql, values)
+        db.execute_query(sql, values)    
 
-def insert_10k_records(n=100):
-    # Kiểm tra số lượng bản ghi hiện có trong bảng
+def insert_10k_records(n=100):        
+    # Kiểm tra số lượng bản ghi hiện có trong bảng        
     db.cursor.execute('SELECT COUNT(*) FROM quotes')
     row = db.cursor.fetchone()
     count = row[0]
@@ -60,10 +60,10 @@ def insert_10k_records(n=100):
         sql = "INSERT INTO quotes (stock_id, price, change_value, percent_change, volume, time_stamp) VALUES (?, ?, ?, ?, ?, ?)"
         values = (stock_id, price, change_value, percent_change, volume, time_stamp)
         print("Inserting: ", values)
-        db.execute_query(sql, values)
-        # print('Thêm dữ liệu thành công.')
+        db.execute_query(sql, values)        
+    # print('Thêm dữ liệu thành công.')
 
-def insert_random_quotes(delay=2):
+def insert_random_quotes(delay=2):    
     while True:
         stock_id = random.randint(stock_id_from, stock_id_to)
         price = round(random.uniform(100, 1000), 2)
@@ -72,9 +72,9 @@ def insert_random_quotes(delay=2):
         volume = random.randint(1000, 10000)
         time_stamp = datetime.now()
         values = (stock_id, price, change_value, percent_change, volume, time_stamp)
-        print("Inserting: ", values)
+        print("Inserting: ", values)        
         sql = "INSERT INTO quotes(stock_id, price, change_value, percent_change, volume, time_stamp) VALUES (?, ?, ?, ?, ?, ?)"
-        db.execute_query(sql, values)
+        db.execute_query(sql, values)        
         time.sleep(delay)
 
 if(arguments == "new"):

@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,5 +17,5 @@ public class OrderRequest {
     private EOrderType orderType;
     private EOrderDirection direction;
     private int quantity;
-    private int price = -1;
+    private BigDecimal price = BigDecimal.valueOf(-1);
 }

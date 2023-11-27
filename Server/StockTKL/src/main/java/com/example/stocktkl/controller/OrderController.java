@@ -11,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-
 @RestController
 @RequestMapping("/api/order")
 @CrossOrigin(origins = "*")
@@ -42,7 +40,7 @@ public class OrderController {
                             orderRequest));
         }
         if (orderRequest.getDirection() == EOrderDirection.SELL && !orderService.canExecuteSellRequest(
-                stockId, orderRequest.getUserId() ,orderRequest.getQuantity())) {
+                stockId, orderRequest.getUserId(), orderRequest.getQuantity())) {
             return ResponseEntity.badRequest().body(
                     new MessageResponse(HttpStatus.BAD_REQUEST.value(),
                             "You don't have enough stock to sell",
@@ -56,7 +54,7 @@ public class OrderController {
                 .quantity(orderRequest.getQuantity())
                 .build();
         if (order.getOrderType() == EOrderType.LIMIT) {
-            order.setPrice(BigDecimal.valueOf(orderRequest.getPrice()));
+            order.setPrice(orderRequest.getPrice());
         }
         try {
             boolean result = orderService.sendToJadeRabbit(order);
@@ -78,5 +76,39 @@ public class OrderController {
                             "Send order unsuccessfully",
                             e.getMessage()));
         }
+    }
+
+    @PostMapping("/cancel-order")
+    public ResponseEntity<MessageResponse> cancelOrder(@RequestBody OrderRequest orderRequest) {
+        // TODO: 27/11/2023 Not yet implemented
+        return ResponseEntity.internalServerError().body(
+                    new MessageResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                            "Cancel order unsuccessfully",
+                            null));
+//        try {
+//            Long stockId;
+//            stockId = orderService.getStockIdBySymbol(orderRequest.getStockSymbol());
+//            boolean result = orderService.deleteOrder(orderRequest.getUserId(),
+//                    stockId, orderRequest.getDirection(),
+//                    orderRequest.getOrderType(), orderRequest.getPrice(),
+//                    orderRequest.getQuantity());
+//            if (result) {
+//                return ResponseEntity.ok(
+//                        new MessageResponse(HttpStatus.OK.value(),
+//                                "Cancel order successfully",
+//                                orderRequest));
+//            } else {
+//                return ResponseEntity.internalServerError().body(
+//                        new MessageResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+//                                "Cancel order unsuccessfully",
+//                                null));
+//            }
+//        } catch (Exception e) {
+//            log.severe(e.getMessage());
+//            return ResponseEntity.internalServerError().body(
+//                    new MessageResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+//                            "Cancel order unsuccessfully",
+//                            e.getMessage()));
+//        }
     }
 }
