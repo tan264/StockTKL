@@ -1,63 +1,62 @@
 package com.example.stocktkl.model;
 
+import com.example.stocktkl.model.enum_class.EOrderDirection;
+import com.example.stocktkl.model.enum_class.EOrderStatus;
 import com.example.stocktkl.model.enum_class.EOrderType;
-import com.example.stocktkl.model.enum_class.ERole;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "orders")
 @Data
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@EntityListeners(AuditingEntityListener.class)
-@Table(name="orders")
+@ToString(exclude = {"user", "stock"})
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
 
-    @NotBlank
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    @JsonBackReference
-    private User user;
+    @Column(name = "user_id")
+    private Long userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "stock_id")
-    @JsonBackReference
-    private Stock stock;
+    @Column(name = "stock_id")
+    private Long stockId;
 
-    @NotBlank
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private EOrderType orderType;
 
-    @NotBlank
+    @Enumerated(EnumType.STRING)
+    @Column(length = 10, nullable = false)
+    private EOrderDirection direction;
+
     private Integer quantity;
 
-    @NotBlank
     @Column(precision = 10, scale = 2)
     @DecimalMin("0.00")
     private BigDecimal price;
 
-    @NotBlank
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    private EOrderType status;
+    private EOrderStatus status = EOrderStatus.PENDING;
 
-    @CreatedDate
-    private LocalDateTime orderDate;
+    private LocalDateTime orderDate = LocalDateTime.now();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @JsonIgnore
+    // change from JsonBackReference to JsonIgnore to avoid error when receive message from queue
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stock_id", insertable = false, updatable = false)
+    @JsonIgnore
+    private Stock stock;
 }
