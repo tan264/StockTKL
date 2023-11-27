@@ -3,6 +3,7 @@ package com.example.stocktkl.repository;
 import com.example.stocktkl.model.Order;
 import com.example.stocktkl.model.enum_class.EOrderDirection;
 import com.example.stocktkl.model.enum_class.EOrderStatus;
+import com.example.stocktkl.model.enum_class.EOrderType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -20,7 +21,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "LIMIT 1")
     BigDecimal getPrice(String symbol);
 
-    List<Order> findAllByDirectionAndStatusOrderByPriceDesc(EOrderDirection direction, EOrderStatus status);
-    List<Order> findAllByDirectionAndStatusOrderByPriceAsc(EOrderDirection direction, EOrderStatus status);
+    List<Order> findAllByDirectionAndStatusAndStockIdOrderByPriceDesc(EOrderDirection direction, EOrderStatus status, Long stockId);
+
+    List<Order> findAllByDirectionAndStatusAndStockIdOrderByPriceAsc(EOrderDirection direction, EOrderStatus status, Long stockId);
+
+    void deleteByUserIdAndStockIdAndDirectionAndOrderTypeAndStatusAndPriceAndQuantity(Long stockId, Long userId, EOrderDirection direction, EOrderType orderType, EOrderStatus status, BigDecimal price, Integer quantity);
 }
 

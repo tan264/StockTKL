@@ -4,6 +4,8 @@ import com.example.stocktkl.model.Order;
 import com.example.stocktkl.model.Portfolio;
 import com.example.stocktkl.model.Stock;
 import com.example.stocktkl.model.enum_class.EOrderDirection;
+import com.example.stocktkl.model.enum_class.EOrderStatus;
+import com.example.stocktkl.model.enum_class.EOrderType;
 import com.example.stocktkl.repository.OrderRepository;
 import com.example.stocktkl.repository.PortfolioRepository;
 import com.example.stocktkl.repository.StockRepository;
@@ -12,6 +14,8 @@ import lombok.extern.java.Log;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 /**
  * @author Tan Dang
@@ -78,5 +82,20 @@ public class OrderService implements IOrderService {
     public Long getStockIdBySymbol(String symbol) {
         Stock stock = stockRepository.findBySymbol(symbol).orElseThrow(RuntimeException::new);
         return stock.getStockId();
+    }
+
+    @Override
+    public boolean deleteOrder(Long userId, Long stockId, EOrderDirection direction, EOrderType orderType, BigDecimal price, Integer quantity) {
+        try {
+            orderRepository.deleteByUserIdAndStockIdAndDirectionAndOrderTypeAndStatusAndPriceAndQuantity(
+                    userId,
+                    stockId,
+                    direction,
+                    orderType, EOrderStatus.PENDING, price, quantity);
+            return true;
+        } catch (Exception e) {
+            log.severe(e.getMessage());
+        }
+        return false;
     }
 }
