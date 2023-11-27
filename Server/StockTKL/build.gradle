@@ -42,7 +42,11 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
+    // enable websocket support
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+    // for support of Java 8 Date/Time API
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2'
 }
 
 tasks.named('test') {

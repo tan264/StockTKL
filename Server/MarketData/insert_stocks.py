@@ -36,18 +36,18 @@ for i in range(26):
         used_symbols.add(symbol)
         company_name = fake.company()
         # Các giá trị cho trường sector
-        SECTORS = {"Thực phẩm": "Food", "Bất động sản": "Real estate", 
-                "Ngân hàng": "Banking", "Bán lẻ": "Retail", "Công nghệ": "Technology", 
-                "Cơ khí": "Mechanical", "Chứng khoán": "Securities", "Quỹ đầu tư": "Investment fund", "Giáo dục": "Education"}
+        SECTORS = {"Thực phẩm": "Food", "Bất động sản": "Real estate",
+                   "Ngân hàng": "Banking", "Bán lẻ": "Retail", "Công nghệ": "Technology",
+                   "Cơ khí": "Mechanical", "Chứng khoán": "Securities", "Quỹ đầu tư": "Investment fund", "Giáo dục": "Education"}
         # Các giá trị cho trường industry
-        INDUSTRIES = {"Sữa và sản phẩm sữa": "Dairy and dairy products", 
-                    "Phát triển bất động sản": "Real estate development", 
-                    "Bán lẻ thực phẩm": "Food retailing", "Ngân hàng thương mại": "Commercial banking", 
-                    "Công nghệ thông tin": "Information technology", 
-                    "Cơ khí chế tạo": "Mechanical manufacturing", 
-                    "Chứng khoán đầu tư": "Investment securities", 
-                    "Quỹ đầu tư chứng khoán": "Securities investment fund",
-                    "Hệ thống trường học": "Educational system"}
+        INDUSTRIES = {"Sữa và sản phẩm sữa": "Dairy and dairy products",
+                      "Phát triển bất động sản": "Real estate development",
+                      "Bán lẻ thực phẩm": "Food retailing", "Ngân hàng thương mại": "Commercial banking",
+                      "Công nghệ thông tin": "Information technology",
+                      "Cơ khí chế tạo": "Mechanical manufacturing",
+                      "Chứng khoán đầu tư": "Investment securities",
+                      "Quỹ đầu tư chứng khoán": "Securities investment fund",
+                      "Hệ thống trường học": "Educational system"}
 
         # Tạo giá trị cho trường sector
         sector = random.choice(list(SECTORS.values()))
@@ -56,7 +56,7 @@ for i in range(26):
         # Tạo giá trị cho trường industry
         industry = random.choice(list(INDUSTRIES.values()))
         # industry_en = INDUSTRIES[industry]
-    
+
     # Thêm dữ liệu giả vào bảng stocks
     query = "INSERT INTO stocks (symbol, company_name, sector, industry) VALUES (?, ?, ?, ?)"
     params = (symbol, company_name, sector, industry)

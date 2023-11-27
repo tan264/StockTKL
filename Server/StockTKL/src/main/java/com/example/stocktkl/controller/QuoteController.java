@@ -30,8 +30,9 @@ public class QuoteController {
                             realtimeQuoteService.getQuotes()));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(
-                    new MessageResponse(HttpStatus.OK.value(), "Get realtime quotes successfully",
-                            realtimeQuoteService.getQuotes()));
+                    new MessageResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                            "Get realtime quotes unsuccessfully",
+                            null));
         }
     }
 
