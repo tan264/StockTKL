@@ -19,4 +19,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT DISTINCT p.stock FROM Portfolio p WHERE p.user = :user")
     List<Stock> findOwnedStocksByUser(@Param("user") User user);
+
 }

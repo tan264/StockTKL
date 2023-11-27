@@ -5,6 +5,7 @@ URL: <http://localhost:8080/api/user/watchlist>
 Method: GET
 Request:None
 Respone:
+```JSON
 [
     {
         "stockId": 2,
@@ -21,12 +22,14 @@ Respone:
         "sector": "abc"
     }
 ]
+```
 
 api get curent user ownded stocks
 URL: <http://localhost:8080/api/user/owned-stocks>
 Method: GET
 Request:None
 Respone:
+```JSON
 [
     {
         "stockId": 3,
@@ -43,12 +46,14 @@ Respone:
         "sector": "abc"
     }
 ]
+```
 
 api get current user orders
 URL: <http://localhost:8080/api/user/orders>
 Method: GET
 Request:None
 Respone:
+```JSON
 [
     {
         "orderId": 1,
@@ -67,3 +72,4 @@ Respone:
         "orderDate": null
     }
 ]
+```

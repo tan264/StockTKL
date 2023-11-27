@@ -1,7 +1,6 @@
 package com.example.stocktkl.service.impl;
 
 import com.example.stocktkl.model.Order;
-import com.example.stocktkl.model.Portfolio;
 import com.example.stocktkl.model.Stock;
 import com.example.stocktkl.model.User;
 import com.example.stocktkl.repository.OrderRepository;
@@ -12,10 +11,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
