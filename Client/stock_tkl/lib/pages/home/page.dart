@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:stock_tkl/pages/auth/signin.dart';
 import 'package:stock_tkl/pages/auth/signup.dart';
 import 'package:stock_tkl/pages/home/controller.dart';
+import 'package:stock_tkl/pages/home/market/industry/page.dart';
 import 'package:stock_tkl/pages/home/market/page.dart';
+import 'package:stock_tkl/pages/home/market/stock_market/page.dart';
 import 'package:stock_tkl/pages/home/watchlist/page.dart';
 import 'package:stock_tkl/pages/user/profile.dart';
 
@@ -11,10 +13,10 @@ class HomePage extends GetView<HomeController> {
   HomePage({super.key});
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final List<Widget> _screens = [
-    MarketPage(),
-    const WatchListPage(),
-  ];
+  // final List<Widget> _screens = [
+  //   MarketPage(),
+  //   const WatchListPage(),
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -96,44 +98,85 @@ class HomePage extends GetView<HomeController> {
                   MaterialPageRoute(builder: (context) => const AccountPage()));
             },
           ),
-          // more ListTiles here
+          ListTile(
+            leading: const Icon(Icons.show_chart),
+            title: const Text('My Stocks'),
+            onTap: () {
+              // Navigate to the My Stocks page
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.history),
+            title: const Text('Order History'),
+            onTap: () {
+              // Navigate to the Order History page
+            },
+          ),
         ],
       )),
-      body: Column(
-        children: [
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                children: [
-                  IconButton(
+      body: DefaultTabController(
+        length: 2,
+        child: Column(
+          children: [
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          //Open drawer
+                          _scaffoldKey.currentState?.openDrawer();
+                        },
+                        icon: const Icon(Icons.menu)),
+                    Expanded(
+                        child: TextField(
+                      decoration: InputDecoration(
+                          hintText: 'Search something',
+                          prefixIcon: const Icon(Icons.search),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 0.0)),
+                    )),
+                    IconButton(
+                      icon: const Icon(Icons.notifications),
                       onPressed: () {
-                        //Open drawer
-                        _scaffoldKey.currentState?.openDrawer();
+                        // Handle bell icon button press
                       },
-                      icon: const Icon(Icons.menu)),
-                  Expanded(
-                      child: TextField(
-                    decoration: InputDecoration(
-                        hintText: 'Search something',
-                        prefixIcon: const Icon(Icons.search),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                        contentPadding:
-                            const EdgeInsets.symmetric(vertical: 0.0)),
-                  )),
-                  IconButton(
-                    icon: const Icon(Icons.notifications),
-                    onPressed: () {
-                      // Handle bell icon button press
-                    },
-                  ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const Material(
+              color: Colors.white,
+              child: TabBar(
+                labelColor: Colors.pink,
+                unselectedLabelColor: Colors.black54,
+                labelStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+                tabs: [
+                  Tab(text: 'Stock Market'),
+                  Tab(text: 'Industry'),
+                ],
+                indicatorSize: TabBarIndicatorSize.label,
+                indicatorColor: Colors.pink,
+              ),
+            ),
+            Expanded(
+              child: TabBarView(
+                children: [
+                  StockMarketPage(),
+                  IndustryPage(),
                 ],
               ),
             ),
-          ),
-          Obx(() => _screens[controller.indexBottomNavigation.value]),
-        ],
+            // Obx(() => _screens[controller.indexBottomNavigation.value]),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.grey.shade300,
