@@ -17,7 +17,8 @@ public class MessageResponse {
 
 
 
-    public static MessageResponse buildResponse(StatusCode statusCode, String message) {
+
+    public  MessageResponse buildResponse(StatusCode statusCode, String message) {
         return MessageResponse.builder()
                 .statusCode(statusCode.code)
                 .message(message)
