@@ -1,12 +1,13 @@
 package com.example.stocktkl.repository;
-
 import com.example.stocktkl.model.Order;
 import com.example.stocktkl.model.User;
 import com.example.stocktkl.model.enum_class.EOrderDirection;
 import com.example.stocktkl.model.enum_class.EOrderStatus;
 import com.example.stocktkl.model.enum_class.EOrderType;
+import com.example.stocktkl.payload.response.OrderResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -21,7 +22,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "ORDER BY q.timeStamp DESC " +
             "LIMIT 1")
     BigDecimal getPrice(String symbol);
-    List<Order> findByUser(User user);
+    @Query("SELECT NEW com.example.stocktkl.payload.response.OrderResponse(" +
+            "o.orderId, s.symbol, s.companyName, s.industry, s.sector, o.price, o.quantity, o.orderType, o.orderDate) " +
+            "FROM Order o JOIN o.stock s WHERE o.user = :user")
+    List<OrderResponse> findByUser(@Param("user") User user);
 
     List<Order> findAllByDirectionAndStatusAndStockIdOrderByPriceDesc(EOrderDirection direction, EOrderStatus status, Long stockId);
 

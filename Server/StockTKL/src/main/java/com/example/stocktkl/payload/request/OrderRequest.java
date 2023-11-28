@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderRequest {
-    private Long userId;
+//    private Long userId;
     private String stockSymbol;
     private EOrderType orderType;
     private EOrderDirection direction;

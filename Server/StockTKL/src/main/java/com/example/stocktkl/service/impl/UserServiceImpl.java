@@ -3,6 +3,8 @@ package com.example.stocktkl.service.impl;
 import com.example.stocktkl.model.Order;
 import com.example.stocktkl.model.Stock;
 import com.example.stocktkl.model.User;
+import com.example.stocktkl.payload.response.OrderResponse;
+import com.example.stocktkl.payload.response.OwnedStockResponse;
 import com.example.stocktkl.repository.OrderRepository;
 import com.example.stocktkl.repository.UserRepository;
 import com.example.stocktkl.service.UserService;
@@ -38,7 +40,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Stock> getOwnedStocksForCurrentUser() {
+    public List<OwnedStockResponse> getOwnedStocksForCurrentUser() {
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = userRepository.findByUsername(currentUsername)
                 .orElseThrow(() -> new RuntimeException("Can't find user"));
@@ -47,7 +49,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Order> getOrdersForCurrentUser() {
+    public List<OrderResponse> getOrdersForCurrentUser() {
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = userRepository.findByUsername(currentUsername)
                 .orElseThrow(() -> new RuntimeException("Cant find user"));

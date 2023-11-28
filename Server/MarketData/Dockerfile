@@ -2,8 +2,8 @@ FROM python:3.12.0-slim-bookworm
 
 WORKDIR /usr/src/app
 
-COPY requirements.txt ./
-COPY entrypoint.sh ./entrypoint.sh
+
+#COPY requirements.txt ./
 COPY . ./
 
 RUN apt-get update && apt-get install -y \
@@ -20,5 +20,7 @@ RUN myodbc-installer -d -l
 
 # Install python library
 RUN pip install --no-cache-dir -r requirements.txt
+
+RUN chmod +x entrypoint.sh
 
 CMD ["./entrypoint.sh"]

@@ -7,20 +7,20 @@ Request:None
 Respone:
 ```JSON
 [
-    {
-        "stockId": 2,
-        "symbol": "b",
-        "companyName": "x",
-        "industry": "xyz",
-        "sector": "abc"
-    },
-    {
-        "stockId": 1,
-        "symbol": "a",
-        "companyName": "w",
-        "industry": "xyz",
-        "sector": "abc"
-    }
+  {
+    "stockId": 2,
+    "symbol": "VTP",
+    "companyName": "Vạn Thịnh Phát",
+    "industry": "Real Steal",
+    "sector": "BDS"
+  },
+  {
+    "stockId": 1,
+    "symbol": "BMG",
+    "companyName": "Ban Mai Group",
+    "industry": "Education",
+    "sector": "Education"
+  }
 ]
 ```
 
@@ -31,20 +31,23 @@ Request:None
 Respone:
 ```JSON
 [
-    {
-        "stockId": 3,
-        "symbol": "c",
-        "companyName": "y",
-        "industry": "xyz",
-        "sector": "abc"
-    },
-    {
-        "stockId": 4,
-        "symbol": "d",
-        "companyName": "z",
-        "industry": "xyz",
-        "sector": "abc"
-    }
+  {
+    "stockId": 1,
+    "symbol": "BMG",
+    "companyName": "Ban Mai Group",
+    "industry": "Education",
+    "sector": "Education",
+    "quantity": 200,
+    "purchaseDate": [
+      2023,
+      11,
+      28,
+      11,
+      22,
+      59
+    ],
+    "price": 5500
+  }
 ]
 ```
 
@@ -55,23 +58,97 @@ Request:None
 Respone:
 ```JSON
 [
-    {
-        "orderId": 1,
-        "orderType": null,
-        "quantity": 2,
-        "price": 100.00,
-        "status": null,
-        "orderDate": null
-    },
-    {
-        "orderId": 2,
-        "orderType": null,
-        "quantity": 3,
-        "price": 200.00,
-        "status": null,
-        "orderDate": null
-    }
-]
+  {
+    "orderId": 1,
+    "symbol": "BMG",
+    "companyName": "Ban Mai Group",
+    "industry": "Education",
+    "sector": "Education",
+    "price": 10000,
+    "quantity": 1000,
+    "orderType": "MARKET",
+    "orderDate": [
+      2023,
+      11,
+      27,
+      17,
+      48,
+      58
+    ]
+  },
+  {
+    "orderId": 2,
+    "symbol": "BMG",
+    "companyName": "Ban Mai Group",
+    "industry": "Education",
+    "sector": "Education",
+    "price": 10000,
+    "quantity": 1000,
+    "orderType": "MARKET",
+    "orderDate": [
+      2023,
+      11,
+      27,
+      17,
+      53,
+      47
+    ]
+  },
+  {
+    "orderId": 3,
+    "symbol": "BMG",
+    "companyName": "Ban Mai Group",
+    "industry": "Education",
+    "sector": "Education",
+    "price": 10000,
+    "quantity": 1000,
+    "orderType": "MARKET",
+    "orderDate": [
+      2023,
+      11,
+      27,
+      17,
+      54,
+      8
+    ]
+  },
+  {
+    "orderId": 6,
+    "symbol": "BMG",
+    "companyName": "Ban Mai Group",
+    "industry": "Education",
+    "sector": "Education",
+    "price": 10000,
+    "quantity": 1000,
+    "orderType": "MARKET",
+    "orderDate": [
+      2023,
+      11,
+      27,
+      18,
+      4,
+      31
+    ]
+  },
+  {
+    "orderId": 8,
+    "symbol": "BMG",
+    "companyName": "Ban Mai Group",
+    "industry": "Education",
+    "sector": "Education",
+    "price": 10000,
+    "quantity": 100,
+    "orderType": "LIMIT",
+    "orderDate": [
+      2023,
+      11,
+      27,
+      18,
+      10,
+      41
+    ]
+  }
+}
 ```
 
 api send request  

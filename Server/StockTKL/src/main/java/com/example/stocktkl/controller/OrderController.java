@@ -1,15 +1,22 @@
 package com.example.stocktkl.controller;
 
 import com.example.stocktkl.model.Order;
+import com.example.stocktkl.model.User;
 import com.example.stocktkl.model.enum_class.EOrderDirection;
 import com.example.stocktkl.model.enum_class.EOrderType;
 import com.example.stocktkl.payload.request.OrderRequest;
 import com.example.stocktkl.payload.response.MessageResponse;
+import com.example.stocktkl.repository.UserRepository;
 import com.example.stocktkl.service.IOrderService;
 import lombok.extern.java.Log;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/order")
@@ -18,18 +25,20 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
 
     private final IOrderService orderService;
-
+    @Autowired
+     UserRepository userRepository;
     public OrderController(IOrderService orderService) {
         this.orderService = orderService;
     }
 
     @PostMapping("/send-order")
     public ResponseEntity<MessageResponse> sendOrder(@RequestBody OrderRequest orderRequest) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication != null && authentication.isAuthenticated()) {
-//            orderRequest.setUserId(authentication.getName());
-//        }
-        // TODO: 26/11/2023 Need to get userId from authentication
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Long userId = null;
+        if (authentication != null && authentication.isAuthenticated()) {
+            userId = userRepository.findByUsername(authentication.getName()).get().getUserId();
+
+        }
         Long stockId;
         if(orderRequest.getQuantity() <= 0) {
             return ResponseEntity.badRequest().body(
@@ -46,7 +55,7 @@ public class OrderController {
                             orderRequest));
         }
         if (orderRequest.getDirection() == EOrderDirection.SELL && !orderService.canExecuteSellRequest(
-                stockId, orderRequest.getUserId(), orderRequest.getQuantity())) {
+                stockId, userId, orderRequest.getQuantity())) {
             return ResponseEntity.badRequest().body(
                     new MessageResponse(HttpStatus.BAD_REQUEST.value(),
                             "You don't have enough stock to sell",
@@ -54,7 +63,7 @@ public class OrderController {
         }
         Order order = new Order().toBuilder()
                 .stockId(stockId)
-                .userId(orderRequest.getUserId())
+                .userId(userId)
                 .orderType(orderRequest.getOrderType())
                 .direction(orderRequest.getDirection())
                 .quantity(orderRequest.getQuantity())
