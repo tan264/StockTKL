@@ -31,6 +31,12 @@ public class OrderController {
 //        }
         // TODO: 26/11/2023 Need to get userId from authentication
         Long stockId;
+        if(orderRequest.getQuantity() <= 0) {
+            return ResponseEntity.badRequest().body(
+                    new MessageResponse(HttpStatus.BAD_REQUEST.value(),
+                            "Quantity must be greater than 0",
+                            orderRequest));
+        }
         try {
             stockId = orderService.getStockIdBySymbol(orderRequest.getStockSymbol());
         } catch (Exception e) {
