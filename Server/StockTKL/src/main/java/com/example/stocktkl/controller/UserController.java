@@ -2,8 +2,13 @@ package com.example.stocktkl.controller;
 
 import com.example.stocktkl.model.Order;
 import com.example.stocktkl.model.Stock;
+import com.example.stocktkl.model.enum_class.StatusCode;
+import com.example.stocktkl.payload.response.MessageResponse;
+import com.example.stocktkl.payload.response.OrderResponse;
+import com.example.stocktkl.payload.response.OwnedStockResponse;
 import com.example.stocktkl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,29 +27,48 @@ public class UserController {
     }
 
     @GetMapping("/watchlist")
-    public ResponseEntity<List<Stock>> getWatchlistedStocksForCurrentUser() {
-        List<Stock> watchlist = userService.getWatchlistedStocksForCurrentUser();
-        if (watchlist.isEmpty()) {
-            return ResponseEntity.noContent().build();
+    public ResponseEntity<?> getWatchlistedStocksForCurrentUser() {
+        try {
+            List<Stock> watchlist = userService.getWatchlistedStocksForCurrentUser();
+            if (watchlist.isEmpty()) {
+                return ResponseEntity.status(StatusCode.NOT_FOUND.code).build();
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(watchlist);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new MessageResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                            "Error retrieving watchlisted stocks", null));
         }
-        return ResponseEntity.ok(watchlist);
     }
 
     @GetMapping("/owned-stocks")
-    public ResponseEntity<List<Stock>> getOwnedStocksForCurrentUser() {
-        List<Stock> ownedStocks = userService.getOwnedStocksForCurrentUser();
-        if (ownedStocks.isEmpty()) {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<?> getOwnedStocksForCurrentUser() {
+        try {
+            List<OwnedStockResponse> ownedStocks = userService.getOwnedStocksForCurrentUser();
+            if (ownedStocks.isEmpty()) {
+                return ResponseEntity.status(StatusCode.NOT_FOUND.code).build();
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(ownedStocks);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new MessageResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                            "Error retrieving owned stocks", null));
         }
-        return ResponseEntity.ok(ownedStocks);
     }
 
     @GetMapping("/orders")
-    public ResponseEntity<List<Order>> getOrdersForCurrentUser() {
-        List<Order> orders = userService.getOrdersForCurrentUser();
-        if (orders.isEmpty()) {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<?> getOrdersForCurrentUser() {
+        try {
+            List<OrderResponse> orders = userService.getOrdersForCurrentUser();
+            if (orders.isEmpty()) {
+                return ResponseEntity.status(StatusCode.NOT_FOUND.code).build();
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(orders);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new MessageResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                            "Error retrieving user orders", null));
         }
-        return ResponseEntity.ok(orders);
     }
 }
+

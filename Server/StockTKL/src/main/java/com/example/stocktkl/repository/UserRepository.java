@@ -1,7 +1,7 @@
 package com.example.stocktkl.repository;
 
-import com.example.stocktkl.model.Stock;
 import com.example.stocktkl.model.User;
+import com.example.stocktkl.payload.response.OwnedStockResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,7 +17,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Boolean existsByEmail(String email);
 
-    @Query("SELECT DISTINCT p.stock FROM Portfolio p WHERE p.user = :user")
-    List<Stock> findOwnedStocksByUser(@Param("user") User user);
+    @Query("SELECT NEW com.example.stocktkl.payload.response.OwnedStockResponse(" +
+            "p.stock.stockId, p.stock.symbol, p.stock.companyName, p.stock.industry, p.stock.sector, " +
+            "p.quantity, p.purchaseDate, p.avgPurchasePrice) " +
+            "FROM Portfolio p WHERE p.user = :user")
+    List<OwnedStockResponse> findOwnedStocksByUser(@Param("user") User user);
 
 }
