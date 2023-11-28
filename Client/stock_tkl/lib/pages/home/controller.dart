@@ -2,9 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:stock_tkl/data/home_api_provider.dart';
 import 'package:stock_tkl/main.dart';
+import 'package:stock_tkl/models/order_request.dart';
 import 'package:stock_tkl/models/realtime_quote.dart';
+import 'package:stock_tkl/routes/app_routes.dart';
+import 'package:stock_tkl/services/api_service.dart';
+import 'package:stock_tkl/services/auth_service.dart';
 import 'package:stomp_dart_client/stomp.dart';
 import 'package:stomp_dart_client/stomp_config.dart';
 import 'package:stomp_dart_client/stomp_frame.dart';
@@ -13,17 +16,21 @@ class HomeController extends GetxController {
   final wsUrl = 'http://10.0.2.2:8080/ws'; // for emulator
   late StompClient client;
 
+  final IApiService _apiProvider = Get.find<ApiService>();
+  final AuthService _authService = Get.find<AuthService>();
+
   final List<RealtimeQuote> realtimeQuotes = <RealtimeQuote>[].obs;
   final Map<String, Map<String, int>> trackTheChange = {};
+
   final indexBottomNavigation = 0.obs;
-  final HomeApiProvider homeApiProvider =
-      Get.put<HomeApiProvider>(HomeApiProvider());
   final isFirstSecond = false.obs;
+  final selectedOrderType = "MARKET".obs;
+  final selectedIndustry = "".obs;
 
   @override
   void onInit() async {
     super.onInit();
-    realtimeQuotes.assignAll(await homeApiProvider.getRealtimeQuotes());
+    realtimeQuotes.assignAll(await _apiProvider.getRealtimeQuotes());
     for (var e in realtimeQuotes) {
       trackTheChange[e.symbol] = {
         "price": 0,
@@ -32,8 +39,25 @@ class HomeController extends GetxController {
         "volume": 0
       };
     }
-    logger.i(trackTheChange.toString());
+    // logger.i(trackTheChange.toString());
     initClient();
+  }
+
+  void updateOrderType(String newValue) {
+    selectedOrderType.value = newValue;
+  }
+
+  void sendOrderRequest(
+      String stockSymbol, String direction, int quantity, double price) {
+    if (_authService.isLogged.value) {
+      _apiProvider.sendOrder(_authService.token!, stockSymbol,
+          selectedOrderType.value, direction, quantity, price, (p0) {
+        Get.snackbar("Error", "$p0");
+      });
+      Get.back();
+    } else {
+      Get.toNamed(AppRoutes.signin);
+    }
   }
 
   @override
@@ -79,7 +103,7 @@ class HomeController extends GetxController {
               RealtimeQuote.listFromJson(jsonDecode(frame.body!));
           handleChange(newRealtimeQuotes);
           realtimeQuotes.assignAll(newRealtimeQuotes);
-          logger.i("new data");
+          // logger.i("new data");
           isFirstSecond.value = true;
           // printInfo(info: "real-time quotes:\n ${realtimeQuotes.toString()}");
           Timer(const Duration(seconds: 1), () {

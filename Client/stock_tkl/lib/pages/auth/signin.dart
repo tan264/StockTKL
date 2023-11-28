@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:stock_tkl/pages/auth/controller.dart';
 import 'package:stock_tkl/pages/auth/signup.dart';
 
-class SignInPage extends StatelessWidget {
+class SignInPage extends GetView<AuthController> {
   const SignInPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    String username = "";
+    String password = "";
+
     return Scaffold(
       backgroundColor: const Color.fromRGBO(27, 31, 35, 1),
       appBar: AppBar(
@@ -57,9 +62,12 @@ class SignInPage extends StatelessWidget {
               ),
               const SizedBox(height: 30),
               TextField(
+                onChanged: (value) {
+                  username = value;
+                },
                 decoration: InputDecoration(
-                  hintText: 'Enter your email...',
-                  labelText: 'Email Address',
+                  hintText: 'Enter your username...',
+                  labelText: 'Username',
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
@@ -69,6 +77,9 @@ class SignInPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               TextField(
+                onChanged: (value) {
+                  password = value;
+                },
                 decoration: InputDecoration(
                   hintText: 'Enter your password...',
                   labelText: 'Password',
@@ -91,9 +102,16 @@ class SignInPage extends StatelessWidget {
                     child: const Text('Forgot Password?',
                         style: TextStyle(color: Colors.white70)),
                   ),
+                  Obx(() {
+                    if (controller.isLogging.value) {
+                      return const CircularProgressIndicator();
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  }),
                   ElevatedButton(
                     onPressed: () {
-                      // Implement login logic
+                      controller.login(username, password);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.teal,
@@ -105,7 +123,7 @@ class SignInPage extends StatelessWidget {
                           horizontal: 28, vertical: 12),
                     ),
                     child: const Text('Sign In'),
-                  ),
+                  )
                 ],
               ),
               const SizedBox(height: 200),

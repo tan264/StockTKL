@@ -2,10 +2,7 @@ package com.example.stocktkl.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,6 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name="portfolios")
+@ToString(exclude = {"user", "stock"})
 public class Portfolio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
