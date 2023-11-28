@@ -6,13 +6,13 @@ import com.example.stocktkl.model.enum_class.StatusCode;
 import com.example.stocktkl.payload.response.MessageResponse;
 import com.example.stocktkl.payload.response.OrderResponse;
 import com.example.stocktkl.payload.response.OwnedStockResponse;
+import com.example.stocktkl.payload.response.WatchListResponse;
 import com.example.stocktkl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -68,6 +68,44 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new MessageResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                             "Error retrieving user orders", null));
+        }
+    }
+
+    @PostMapping("/watchlist/add")
+    public ResponseEntity<?> addStockToWatchlist(@RequestParam String symbol) {
+        try {
+            if (userService.addStockToWatchlist(symbol)) {
+                return ResponseEntity.ok(
+                        new WatchListResponse(HttpStatus.OK.value(),
+                                "Adding stock successfully"));
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new WatchListResponse(HttpStatus.NOT_FOUND.value(),
+                                "Stock not found"));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new WatchListResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                            "Error adding stock to watchlist"));
+        }
+    }
+
+    @DeleteMapping("/watchlist/remove")
+    public ResponseEntity<?> removeStockFromWatchlist(@RequestParam String symbol) {
+        try {
+            if (userService.removeStockFromWatchlist(symbol)) {
+                return ResponseEntity.ok(
+                        new WatchListResponse(HttpStatus.OK.value(),
+                                "Remove stock successfully"));
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new WatchListResponse(HttpStatus.NOT_FOUND.value(),
+                                "Stock not found in watchlist"));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new WatchListResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                            "Error removing stock from watchlist"));
         }
     }
 }

@@ -11,4 +11,6 @@ public interface UserService {
     List<Stock> getWatchlistedStocksForCurrentUser();
     List<OwnedStockResponse> getOwnedStocksForCurrentUser();
     List<OrderResponse> getOrdersForCurrentUser();
+    boolean addStockToWatchlist(String symbol);
+    boolean removeStockFromWatchlist(String symbol);
 }
