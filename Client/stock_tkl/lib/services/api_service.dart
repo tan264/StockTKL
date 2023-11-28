@@ -8,8 +8,8 @@ abstract class IApiService {
   Future<String?> login(
       String username, String password, void Function(String) onError);
 
-  Future<String> register(
-      String username, String password, String fullName, String email);
+  Future<String?> register(String username, String password, String fullName,
+      String email, void Function(String) onError);
 
   Future<List<String>> watchList(String token);
 
@@ -78,10 +78,31 @@ class ApiService extends GetConnect implements IApiService {
   }
 
   @override
-  Future<String> register(
-      String username, String password, String fullName, String email) {
-    // TODO: implement register
-    throw UnimplementedError();
+  Future<String?> register(String username, String password, String fullName,
+      String email, void Function(String) onError) async {
+    final data = {
+      "username": username,
+      "password": password,
+      "email": email,
+      "fullName": fullName,
+    };
+    final response = await httpClient.post(
+      "/api/auth/signup",
+      body: data,
+    );
+    if (response.isOk) {
+      try {
+        Map<String, dynamic> jsonBody = jsonDecode(response.bodyString!);
+        logger.d(jsonBody);
+        return jsonBody['token'];
+      } catch (e) {
+        logger.d(e);
+      }
+    } else {
+      logger.d(response.bodyString);
+      onError("${response.statusCode} - ${response.statusText}");
+    }
+    return null;
   }
 
   @override

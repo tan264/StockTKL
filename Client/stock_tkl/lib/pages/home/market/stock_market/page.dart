@@ -94,89 +94,6 @@ class StockMarketPage extends GetView<HomeController> {
                   }
                 },
               ),
-              // child: DataTable(
-              //   showCheckboxColumn: false,
-              //   dividerThickness: 1.0,
-              //   columns: const [
-              //     DataColumn(label: Text('Symbol')),
-              //     DataColumn(label: Text('Price')),
-              //     DataColumn(label: Text('+/-')),
-              //     DataColumn(label: Text('+/-(%)')),
-              //     DataColumn(label: Text('TotalVol')),
-              //   ],
-              //   rows: [
-              //     DataRow(
-              //         onSelectChanged: (bool? selected) {
-              //           if (selected == true) {
-              //             final stockData = generateStockData();
-              //             Navigator.push(
-              //               context,
-              //               MaterialPageRoute(
-              //                 builder: (context) => StockDetailPage(
-              //                   stockSymbol: 'ABC',
-              //                   stockPrice: 123.1,
-              //                   stockData: stockData,
-              //                 ),
-              //               ),
-              //             );
-              //           }
-              //         },
-              //         cells: const [
-              //           DataCell(Text('ABC')),
-              //           DataCell(Text('123.1')),
-              //           DataCell(Text('12.3')),
-              //           DataCell(Text('11.0')),
-              //           DataCell(Text('12345')),
-              //         ]),
-              //     DataRow(
-              //         onSelectChanged: (bool? selected) {
-              //           if (selected == true) {
-              //             final stockData = generateStockData();
-              //             Navigator.push(
-              //               context,
-              //               MaterialPageRoute(
-              //                 builder: (context) => StockDetailPage(
-              //                   stockSymbol: 'ZZ',
-              //                   stockPrice: 123.1,
-              //                   stockData: stockData,
-              //                 ),
-              //               ),
-              //             );
-              //           }
-              //         },
-              //         cells: const [
-              //           DataCell(Text('ZZ')),
-              //           DataCell(Text('123.1')),
-              //           DataCell(Text('12.3')),
-              //           DataCell(Text('11.0')),
-              //           DataCell(Text('12345')),
-              //         ]),
-              //     DataRow(
-              //         onSelectChanged: (bool? selected) {
-              //           if (selected == true) {
-              //             final stockData = generateStockData();
-
-              //             Navigator.push(
-              //               context,
-              //               MaterialPageRoute(
-              //                 builder: (context) => StockDetailPage(
-              //                   stockSymbol: 'XYZ',
-              //                   stockPrice: 123.1,
-              //                   stockData: stockData,
-              //                 ),
-              //               ),
-              //             );
-              //           }
-              //         },
-              //         cells: const [
-              //           DataCell(Text('XYZ')),
-              //           DataCell(Text('123.1')),
-              //           DataCell(Text('12.3')),
-              //           DataCell(Text('11.0')),
-              //           DataCell(Text('12345')),
-              //         ]),
-              //   ],
-              // ),
             ),
           ),
         )
@@ -228,14 +145,23 @@ class StockMarketPage extends GetView<HomeController> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Text(realtimeQuote.companyName),
-                  Text('Stock Symbol: ${realtimeQuote.symbol}'),
-                  Text('Price: \$${realtimeQuote.price}'),
-                  Text('Change: \$${realtimeQuote.changeValue}'),
-                  Text('Change (%): ${realtimeQuote.percentChange}%'),
+                  Text(realtimeQuote.companyName,
+                      style: const TextStyle(
+                          fontSize: 24, fontWeight: FontWeight.bold)),
+                  Text(
+                    'Stock Symbol: ${realtimeQuote.symbol}',
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                  Text('Price: \$${realtimeQuote.price}',
+                      style: const TextStyle(fontSize: 18)),
+                  Text('Change: \$${realtimeQuote.changeValue}',
+                      style: const TextStyle(fontSize: 18)),
+                  Text('Change (%): ${realtimeQuote.percentChange}%',
+                      style: const TextStyle(fontSize: 18)),
                   const SizedBox(height: 20.0),
                   Obx(
                     () => Row(
+                      mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         DropdownButton<String>(
@@ -254,17 +180,22 @@ class StockMarketPage extends GetView<HomeController> {
                               )
                               .toList(),
                         ),
+                        const Spacer(),
                         Expanded(
                           child: TextField(
+                            textDirection: TextDirection.rtl,
                             enabled:
                                 controller.selectedOrderType.value == "LIMIT",
                             onChanged: (value) {
                               price = double.parse(value);
                             },
                             decoration: const InputDecoration(
+                              suffixIcon: Icon(Icons.attach_money),
+                              border: InputBorder.none,
+                              hintTextDirection: TextDirection.rtl,
                               hintText: 'Enter price',
-                              labelText: 'price',
-                              border: OutlineInputBorder(),
+                              // labelText: 'price',
+                              // border: OutlineInputBorder(),
                             ),
                             keyboardType: TextInputType.number,
                           ),
@@ -272,14 +203,17 @@ class StockMarketPage extends GetView<HomeController> {
                       ],
                     ),
                   ),
+                  const SizedBox(
+                    height: 5,
+                  ),
                   TextField(
                     onChanged: (value) {
                       quantity = int.parse(value);
                     },
                     decoration: const InputDecoration(
                       hintText: 'Enter quantity',
-                      labelText: 'Quantity',
-                      border: OutlineInputBorder(),
+                      // labelText: 'Quantity',
+                      border: InputBorder.none,
                     ),
                     keyboardType: TextInputType.number,
                   ),
@@ -307,6 +241,10 @@ class StockMarketPage extends GetView<HomeController> {
                         },
                         child: const Text('SELL'),
                       ),
+                      ElevatedButton.icon(
+                          onPressed: () {},
+                          icon: const Icon(Icons.favorite_border),
+                          label: const Text("Add to favorite")),
                     ],
                   ),
                 ],

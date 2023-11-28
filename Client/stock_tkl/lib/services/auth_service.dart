@@ -20,4 +20,22 @@ class AuthService extends GetxService {
     }
     onDone();
   }
+
+  void register(
+    String username,
+    String password,
+    String fullName,
+    String email, {
+    required void Function() onDone,
+    required Function(String) onError,
+    required Function() onSuccess,
+  }) async {
+    token =
+        await apiService.register(username, password, fullName, email, onError);
+    if (token != null) {
+      isLogged.value = true;
+      onSuccess();
+    }
+    onDone();
+  }
 }
