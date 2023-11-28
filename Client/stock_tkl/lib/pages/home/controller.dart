@@ -166,6 +166,10 @@ class HomeController extends GetxController {
     }
   }
 
+  bool isLogged() {
+    return _authService.isLogged.value;
+  }
+
   // void handleData(String jsonString) {
   //   List<RealtimeQuote> data = decodeRealtimeQuotesJSON(jsonString);
   //   if (realtimeQuotes.isNotEmpty) {

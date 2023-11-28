@@ -31,25 +31,27 @@ class IndustryPage extends GetView<HomeController> {
           children: [
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: DropdownButton<String>(
-                  icon: const Icon(Icons.arrow_downward),
-                  hint: const Text('Select Industry'),
-                  borderRadius: const BorderRadius.all(Radius.circular(5)),
-                  value: controller.selectedIndustry.value.isEmpty
-                      ? null
-                      : controller.selectedIndustry.value,
-                  items:
-                      _industries.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (String? selectedItem) {
-                    if (selectedItem != null) {
-                      controller.selectedIndustry.value = selectedItem;
-                    }
-                  }),
+              child: Obx(
+                () => DropdownButton<String>(
+                    icon: const Icon(Icons.arrow_downward),
+                    hint: const Text('Select Industry'),
+                    borderRadius: const BorderRadius.all(Radius.circular(5)),
+                    value: controller.selectedIndustry.value.isEmpty
+                        ? null
+                        : controller.selectedIndustry.value,
+                    items: _industries
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String? selectedItem) {
+                      if (selectedItem != null) {
+                        controller.selectedIndustry.value = selectedItem;
+                      }
+                    }),
+              ),
             )
           ],
         ),

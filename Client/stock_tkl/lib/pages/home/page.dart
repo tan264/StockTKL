@@ -20,97 +20,99 @@ class HomePage extends GetView<HomeController> {
     return Scaffold(
         key: _scaffoldKey,
         drawer: Drawer(
-            child: ListView(
-          children: <Widget>[
-            DrawerHeader(
-              decoration:
-                  const BoxDecoration(color: Color.fromRGBO(27, 31, 35, 1)),
-              child: Padding(
-                padding: const EdgeInsets.all(1.0),
-                child: Row(
+          child: ListView(
+            children: <Widget>[
+              DrawerHeader(
+                decoration:
+                    const BoxDecoration(color: Color.fromRGBO(27, 31, 35, 1)),
+                child: Padding(
+                  padding: const EdgeInsets.all(1.0),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: Image.asset('assets/images/logo.png',
+                            fit: BoxFit.contain),
+                      ),
+                      const SizedBox(width: 16),
+                      const Expanded(
+                        child: Text(
+                          'Welcome to StockTKL',
+                          style: TextStyle(
+                            color: Color.fromRGBO(65, 148, 138, 1),
+                            fontSize: 24,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              if (!controller.isLogged())
+                Row(
                   children: [
-                    SizedBox(
-                      width: 100,
-                      height: 100,
-                      child: Image.asset('assets/images/logo.png',
-                          fit: BoxFit.contain),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 10.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Get.toNamed(AppRoutes.signin);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            foregroundColor: Colors.white,
+                          ),
+                          child: const Text('Sign In'),
+                        ),
+                      ),
                     ),
-                    const SizedBox(width: 16),
-                    const Expanded(
-                      child: Text(
-                        'Welcome to StockTKL',
-                        style: TextStyle(
-                          color: Color.fromRGBO(65, 148, 138, 1),
-                          fontSize: 24,
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 10.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Get.toNamed(AppRoutes.signup);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.blue,
+                          ),
+                          child: const Text('Sign Up'),
                         ),
                       ),
                     ),
                   ],
                 ),
+              ListTile(
+                leading: const Icon(Icons.account_circle),
+                title: const Text('Account'),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const AccountPage()));
+                },
               ),
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 10.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Get.toNamed(AppRoutes.signin);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                        foregroundColor: Colors.white,
-                      ),
-                      child: const Text('Sign In'),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 10.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Get.toNamed(AppRoutes.signup);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        foregroundColor: Colors.blue,
-                      ),
-                      child: const Text('Sign Up'),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            ListTile(
-              leading: const Icon(Icons.account_circle),
-              title: const Text('Account'),
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const AccountPage()));
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.show_chart),
-              title: const Text('My Stocks'),
-              onTap: () {
-                // Navigate to the My Stocks page
-                Get.toNamed(AppRoutes.myStocks);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.history),
-              title: const Text('Order History'),
-              onTap: () {
-                // Navigate to the Order History page
-                Get.toNamed(AppRoutes.orderHistory);
-              },
-            ),
-          ],
-        )),
+              ListTile(
+                leading: const Icon(Icons.show_chart),
+                title: const Text('My Stocks'),
+                onTap: () {
+                  // Navigate to the My Stocks page
+                  Get.toNamed(AppRoutes.myStocks);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.history),
+                title: const Text('Order History'),
+                onTap: () {
+                  // Navigate to the Order History page
+                  Get.toNamed(AppRoutes.orderHistory);
+                },
+              ),
+            ],
+          ),
+        ),
         body: Column(
           children: [
             SafeArea(

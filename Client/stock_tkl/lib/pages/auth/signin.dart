@@ -12,6 +12,7 @@ class SignInPage extends GetView<AuthController> {
     String password = "";
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: const Color.fromRGBO(27, 31, 35, 1),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -37,7 +38,7 @@ class SignInPage extends GetView<AuthController> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Image.asset('lib/assets/images/logo.png',
+                    Image.asset('assets/images/logo.png',
                         width: 100, height: 100, fit: BoxFit.contain),
                     const SizedBox(width: 16),
                     const Text(
@@ -73,6 +74,9 @@ class SignInPage extends GetView<AuthController> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
+                  floatingLabelStyle: const TextStyle(
+                      backgroundColor: Color.fromRGBO(27, 31, 35, 1),
+                      fontSize: 20),
                 ),
               ),
               const SizedBox(height: 16),
@@ -88,6 +92,9 @@ class SignInPage extends GetView<AuthController> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
+                  floatingLabelStyle: const TextStyle(
+                      backgroundColor: Color.fromRGBO(27, 31, 35, 1),
+                      fontSize: 20),
                 ),
                 obscureText: true,
               ),
@@ -103,7 +110,7 @@ class SignInPage extends GetView<AuthController> {
                         style: TextStyle(color: Colors.white70)),
                   ),
                   Obx(() {
-                    if (controller.isLogging.value) {
+                    if (controller.isLoading.value) {
                       return const CircularProgressIndicator();
                     } else {
                       return const SizedBox.shrink();
@@ -127,21 +134,23 @@ class SignInPage extends GetView<AuthController> {
                 ],
               ),
               const SizedBox(height: 200),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Don\'t have an account?',
-                      style: TextStyle(color: Colors.white70)),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const SignUpPage()));
-                    },
-                    child: const Text('Create',
-                        style: TextStyle(color: Colors.teal)),
-                  ),
-                ],
-              ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('Don\'t have an account?',
+                        style: TextStyle(color: Colors.white70)),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const SignUpPage()));
+                      },
+                      child: const Text('Create',
+                          style: TextStyle(color: Colors.teal)),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),
