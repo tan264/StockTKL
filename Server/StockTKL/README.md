@@ -1,3 +1,6 @@
+# URL Swagger Backend : 
+<http://34.126.116.150/swagger-ui/index.html>
+
 # api get watchlist/orders/owned stocks of current user
 
 api get curent user watchlist
@@ -148,6 +151,32 @@ Respone:
       41
     ]
   }
+]
+```
+
+api add stocks to watchlist
+URL: <http://localhost:8080/api/user/watchlist/add>
+Method: POST
+Sample request
+`symbol=BMG`
+Sample respone
+```JSON
+{
+    "statusCode": 200,
+    "message": "Stock added to watchlist successfully"
+}
+```
+
+api remove stocks from watchlist
+URL: <http://localhost:8080/api/user/watchlist/remove>
+Method: DELETE
+Sample request
+`symbol=BMG`
+Sample respone
+```JSON
+{
+  "statusCode": 200,
+  "message": "Stock removed from watchlist successfully"
 }
 ```
 
