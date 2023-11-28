@@ -54,7 +54,6 @@ services:
       - ./MarketData:/MarketData
     networks:
       - photos
-
 networks:
   photos:
     driver: bridge
