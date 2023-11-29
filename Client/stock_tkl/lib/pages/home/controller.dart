@@ -13,7 +13,7 @@ import 'package:stomp_dart_client/stomp_config.dart';
 import 'package:stomp_dart_client/stomp_frame.dart';
 
 class HomeController extends GetxController {
-  final wsUrl = 'http://10.0.2.2:8080/ws'; // for emulator
+  final wsUrl = 'http://34.126.116.150/ws'; // for emulator
   late StompClient client;
 
   final IApiService _apiProvider = Get.find<ApiService>();

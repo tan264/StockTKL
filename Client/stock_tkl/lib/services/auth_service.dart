@@ -1,10 +1,32 @@
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stock_tkl/services/api_service.dart';
 
 class AuthService extends GetxService {
   String? token;
   final isLogged = false.obs;
   IApiService apiService = Get.find<ApiService>();
+
+  // String? get token => _token;
+
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   loadToken();
+  // }
+
+  // Future<void> saveToken(String token) async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   await prefs.setString('token', token);
+  //   _token = token;
+  //   isLogged.value = true;
+  // }
+
+  // Future<void> loadToken() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   _token = prefs.getString('token');
+  //   isLogged.value = _token != null;
+  // }
 
   void login(
     String username,
