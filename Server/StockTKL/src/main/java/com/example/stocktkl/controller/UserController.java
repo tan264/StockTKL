@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -60,10 +61,24 @@ public class UserController {
     public ResponseEntity<MessageResponse> getOrdersForCurrentUser() {
         try {
             List<Order> orders = userService.getOrdersForCurrentUser();
+            List<OrderResponse> orderResponses = new ArrayList<>();
+            for (Order order : orders) {
+                orderResponses.add(new OrderResponse(order.getOrderId(),
+                        order.getStock().getSymbol(),
+                        order.getStock().getCompanyName(),
+                        order.getStock().getIndustry(),
+                        order.getStock().getSector(),
+                        order.getPrice(),
+                        order.getQuantity(),
+                        order.getDirection(),
+                        order.getStatus(),
+                        order.getOrderType(),
+                        order.getOrderDate()));
+            }
             return ResponseEntity.ok(
                     new MessageResponse(HttpStatus.OK.value(),
                             "Get orders successfully",
-                            orders));
+                            orderResponses));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new MessageResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
