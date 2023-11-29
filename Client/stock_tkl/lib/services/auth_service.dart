@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stock_tkl/services/api_service.dart';
 
 class AuthService extends GetxService {
