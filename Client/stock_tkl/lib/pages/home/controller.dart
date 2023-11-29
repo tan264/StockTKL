@@ -14,6 +14,7 @@ import 'package:stomp_dart_client/stomp_frame.dart';
 
 class HomeController extends GetxController {
   final wsUrl = 'http://10.0.2.2:8080/ws'; // for emulator
+  // final wsUrl = 'http://34.126.116.150/ws';
   late StompClient client;
 
   final IApiService _apiProvider = Get.find<ApiService>();
@@ -21,6 +22,7 @@ class HomeController extends GetxController {
 
   final List<RealtimeQuote> realtimeQuotes = <RealtimeQuote>[].obs;
   final Map<String, Map<String, int>> trackTheChange = {};
+  final Set<String> stocksFavorite = <String>{}.obs;
 
   final indexBottomNavigation = 0.obs;
   final isFirstSecond = false.obs;
@@ -38,6 +40,14 @@ class HomeController extends GetxController {
         "percentChange": 0,
         "volume": 0
       };
+    }
+    if (_authService.isLogged.value) {
+      logger.d("logged");
+      final token = _authService.token;
+      if (token != null) {
+        stocksFavorite.assignAll(await _apiProvider.watchList(token));
+        logger.d(stocksFavorite);
+      }
     }
     // logger.i(trackTheChange.toString());
     initClient();
@@ -124,6 +134,38 @@ class HomeController extends GetxController {
     //     snackPosition: SnackPosition.BOTTOM,
     //     backgroundColor: Get.theme.colorScheme.primaryContainer,
     //     colorText: Get.theme.colorScheme.onPrimaryContainer);
+  }
+
+  void addToWatchList(String symbol) {
+    if (_authService.isLogged.value) {
+      _apiProvider.addToWatchList(
+        _authService.token!,
+        symbol,
+        (p0) {
+          Get.snackbar("Error", p0);
+        },
+        () {
+          stocksFavorite.add(symbol);
+        },
+      );
+    } else {
+      Get.toNamed(AppRoutes.signin);
+    }
+  }
+
+  void deleteFromWatchList(String symbol) {
+    if (_authService.isLogged.value) {
+      _apiProvider.deleteFromWatchList(
+        _authService.token!,
+        symbol,
+        (p0) {
+          Get.snackbar("Error", p0);
+        },
+        () {
+          stocksFavorite.remove(symbol);
+        },
+      );
+    }
   }
 
   void handleChange(List<RealtimeQuote> newRealtimeQuotes) {

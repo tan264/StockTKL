@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:stock_tkl/pages/home/controller.dart';
 import 'package:stock_tkl/routes/app_routes.dart';
 import 'package:stock_tkl/services/auth_service.dart';
 
@@ -19,6 +20,7 @@ class AuthController extends GetxController {
         Get.snackbar("Error", p0, backgroundColor: Colors.white);
       },
       onSuccess: () {
+        Get.delete<HomeController>();
         Get.toNamed(AppRoutes.home);
       },
     );
@@ -42,6 +44,7 @@ class AuthController extends GetxController {
         Get.snackbar("Error", p0, backgroundColor: Colors.white);
       },
       onSuccess: () {
+        Get.delete<HomeController>();
         Get.toNamed(AppRoutes.home);
       },
     );

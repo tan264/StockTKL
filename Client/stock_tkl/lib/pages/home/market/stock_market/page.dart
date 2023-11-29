@@ -241,10 +241,25 @@ class StockMarketPage extends GetView<HomeController> {
                         },
                         child: const Text('SELL'),
                       ),
-                      ElevatedButton.icon(
-                          onPressed: () {},
-                          icon: const Icon(Icons.favorite_border),
-                          label: const Text("Add to favorite")),
+                      Obx(() {
+                        if (!controller.stocksFavorite
+                            .contains(realtimeQuote.symbol)) {
+                          return ElevatedButton.icon(
+                              onPressed: () {
+                                controller.addToWatchList(realtimeQuote.symbol);
+                              },
+                              icon: const Icon(Icons.favorite_border),
+                              label: const Text("Add to favorite"));
+                        } else {
+                          return ElevatedButton.icon(
+                              onPressed: () {
+                                controller
+                                    .deleteFromWatchList(realtimeQuote.symbol);
+                              },
+                              icon: const Icon(Icons.favorite),
+                              label: const Text("Delete from watchlist"));
+                        }
+                      }),
                     ],
                   ),
                 ],

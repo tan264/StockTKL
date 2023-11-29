@@ -11,7 +11,7 @@ abstract class IApiService {
   Future<String?> register(String username, String password, String fullName,
       String email, void Function(String) onError);
 
-  Future<List<String>> watchList(String token);
+  Future<Set<String>> watchList(String token);
 
   Future<bool> sendOrder(
       String token,
@@ -24,13 +24,18 @@ abstract class IApiService {
 
   Future<List<RealtimeQuote>> getRealtimeQuotes();
 
-  // Future<
+  Future addToWatchList(String token, String symbol,
+      void Function(String) onError, void Function() onSuccess);
+
+  Future deleteFromWatchList(String token, String symbol,
+      void Function(String) onError, void Function() onSuccess);
 }
 
 class ApiService extends GetConnect implements IApiService {
   @override
   void onInit() {
     httpClient.baseUrl = "http://10.0.2.2:8080"; // for emulator
+    // httpClient.baseUrl = "http://34.126.116.150";
     super.onInit();
   }
 
@@ -106,9 +111,27 @@ class ApiService extends GetConnect implements IApiService {
   }
 
   @override
-  Future<List<String>> watchList(String token) {
-    // TODO: implement watchList
-    throw UnimplementedError();
+  Future<Set<String>> watchList(String token) async {
+    final headers = {'Authorization': 'Bearer $token'};
+    final response =
+        await httpClient.get("/api/user/watchlist", headers: headers);
+    if (response.isOk) {
+      try {
+        List<dynamic> jsonBody = jsonDecode(response.bodyString!);
+        Set<String> symbols = <String>{};
+        for (var i in jsonBody) {
+          symbols.add(i['symbol']);
+        }
+        logger.d(jsonBody);
+        return symbols;
+      } catch (e) {
+        logger.d(e);
+      }
+    } else {
+      logger.d(response.bodyString);
+      logger.d("${response.statusCode} - ${response.statusText}");
+    }
+    return <String>{};
   }
 
   @override
@@ -143,5 +166,52 @@ class ApiService extends GetConnect implements IApiService {
       onError("${response.statusCode} - ${response.statusText}");
     }
     return false;
+  }
+
+  @override
+  Future addToWatchList(String token, String symbol,
+      void Function(String p1) onError, void Function() onSuccess) async {
+    final headers = {'Authorization': 'Bearer $token'};
+    final params = {
+      'symbol': symbol,
+    };
+    final response = await httpClient.post("/api/user/watchlist/add",
+        headers: headers, query: params);
+    if (response.isOk) {
+      try {
+        Map<String, dynamic> jsonBody = jsonDecode(response.bodyString!);
+        Get.snackbar("Success", jsonBody['message']);
+        onSuccess();
+        logger.d(jsonBody);
+      } catch (e) {
+        logger.d(e);
+      }
+    } else {
+      logger.d(response.bodyString);
+      onError("${response.statusCode} - ${response.statusText}");
+    }
+  }
+
+  @override
+  Future deleteFromWatchList(String token, String symbol,
+      void Function(String p1) onError, void Function() onSuccess) async {
+    final headers = {'Authorization': 'Bearer $token'};
+    final params = {
+      'symbol': symbol,
+    };
+    final response = await httpClient.delete("/api/user/watchlist/remove",
+        headers: headers, query: params);
+    if (response.isOk) {
+      try {
+        Map<String, dynamic> jsonBody = jsonDecode(response.bodyString!);
+        logger.d(jsonBody);
+        onSuccess();
+      } catch (e) {
+        logger.d(e);
+      }
+    } else {
+      logger.d(response.bodyString);
+      logger.d("${response.statusCode} - ${response.statusText}");
+    }
   }
 }
