@@ -18,13 +18,17 @@ class OrderHistoryPage extends GetView<OrderHistoryController> {
         if (controller.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
         }
+        if (controller.orders.isEmpty) {
+          return const Center(child: Text('You currently have no orders.'));
+        }
         return ListView.builder(
           itemCount: controller.orders.length,
           itemBuilder: (context, index) {
             Order order = controller.orders[index];
             return ListTile(
               title: Text(order.symbol),
-              subtitle: Text('Quantity: ${order.quantity}, Price: ${order.price}, Status: ${order.status}'),
+              subtitle: Text(
+                  'Quantity: ${order.quantity}, Price: ${order.price}, Status: ${order.status}'),
               trailing: Text('${order.orderDate}'),
             );
           },
