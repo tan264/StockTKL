@@ -2,7 +2,6 @@ package com.example.stocktkl.controller;
 
 import com.example.stocktkl.model.Order;
 import com.example.stocktkl.model.Stock;
-import com.example.stocktkl.model.enum_class.StatusCode;
 import com.example.stocktkl.payload.response.MessageResponse;
 import com.example.stocktkl.payload.response.OrderResponse;
 import com.example.stocktkl.payload.response.OwnedStockResponse;
@@ -31,9 +30,9 @@ public class UserController {
     public ResponseEntity<?> getWatchlistedStocksForCurrentUser() {
         try {
             List<Stock> watchlist = userService.getWatchlistedStocksForCurrentUser();
-            if (watchlist.isEmpty()) {
-                return ResponseEntity.status(StatusCode.NOT_FOUND.code).build();
-            }
+//            if (watchlist.isEmpty()) {
+//                return ResponseEntity.status(StatusCode.NOT_FOUND.code).build();
+//            }
             return ResponseEntity.status(HttpStatus.OK).body(watchlist);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -46,9 +45,9 @@ public class UserController {
     public ResponseEntity<?> getOwnedStocksForCurrentUser() {
         try {
             List<OwnedStockResponse> ownedStocks = userService.getOwnedStocksForCurrentUser();
-            if (ownedStocks.isEmpty()) {
-                return ResponseEntity.status(StatusCode.NOT_FOUND.code).build();
-            }
+//            if (ownedStocks.isEmpty()) {
+//                return ResponseEntity.status(StatusCode.NOT_FOUND.code).build();
+//            }
             return ResponseEntity.status(HttpStatus.OK).body(ownedStocks);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

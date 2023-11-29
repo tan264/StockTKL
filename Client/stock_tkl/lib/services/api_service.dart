@@ -39,8 +39,8 @@ abstract class IApiService {
 class ApiService extends GetConnect implements IApiService {
   @override
   void onInit() {
-    httpClient.baseUrl = "http://10.0.2.2:8080"; // for emulator
-    // httpClient.baseUrl = "http://34.126.116.150";
+    // httpClient.baseUrl = "http://10.0.2.2:8080"; // for emulator
+    httpClient.baseUrl = "http://34.126.116.150";
     super.onInit();
   }
 
