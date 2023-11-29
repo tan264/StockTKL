@@ -6,6 +6,27 @@ class AuthService extends GetxService {
   final isLogged = false.obs;
   IApiService apiService = Get.find<ApiService>();
 
+  // String? get token => _token;
+
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   loadToken();
+  // }
+
+  // Future<void> saveToken(String token) async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   await prefs.setString('token', token);
+  //   _token = token;
+  //   isLogged.value = true;
+  // }
+
+  // Future<void> loadToken() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   _token = prefs.getString('token');
+  //   isLogged.value = _token != null;
+  // }
+
   void login(
     String username,
     String password, {

@@ -136,38 +136,6 @@ class HomeController extends GetxController {
     //     colorText: Get.theme.colorScheme.onPrimaryContainer);
   }
 
-  void addToWatchList(String symbol) {
-    if (_authService.isLogged.value) {
-      _apiProvider.addToWatchList(
-        _authService.token!,
-        symbol,
-        (p0) {
-          Get.snackbar("Error", p0);
-        },
-        () {
-          stocksFavorite.add(symbol);
-        },
-      );
-    } else {
-      Get.toNamed(AppRoutes.signin);
-    }
-  }
-
-  void deleteFromWatchList(String symbol) {
-    if (_authService.isLogged.value) {
-      _apiProvider.deleteFromWatchList(
-        _authService.token!,
-        symbol,
-        (p0) {
-          Get.snackbar("Error", p0);
-        },
-        () {
-          stocksFavorite.remove(symbol);
-        },
-      );
-    }
-  }
-
   void handleChange(List<RealtimeQuote> newRealtimeQuotes) {
     for (int i = 0; i < realtimeQuotes.length; i++) {
       RealtimeQuote oldRealtimeQuote = realtimeQuotes[i];

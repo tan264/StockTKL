@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:stock_tkl/main.dart';
+import 'package:stock_tkl/models/order.dart';
 import 'package:stock_tkl/models/realtime_quote.dart';
+import 'package:stock_tkl/models/stock.dart';
 
 abstract class IApiService {
   Future<String?> login(
@@ -29,6 +31,9 @@ abstract class IApiService {
 
   Future deleteFromWatchList(String token, String symbol,
       void Function(String) onError, void Function() onSuccess);
+  Future<List<Stock>> getOwnedStocks(String token);
+
+  Future<List<Order>> getOrderHistory(String token);
 }
 
 class ApiService extends GetConnect implements IApiService {
@@ -212,6 +217,48 @@ class ApiService extends GetConnect implements IApiService {
     } else {
       logger.d(response.bodyString);
       logger.d("${response.statusCode} - ${response.statusText}");
+    }
+  }
+
+  @override
+  Future<List<Stock>> getOwnedStocks(String token) async {
+    final headers = {'Authorization': 'Bearer $token'};
+    final response =
+        await httpClient.get("/api/user/owned-stocks", headers: headers);
+
+    if (response.isOk) {
+      try {
+        List<dynamic> jsonList = jsonDecode(response.bodyString!);
+        return jsonList.map((data) => Stock.fromJson(data)).toList();
+      } catch (e) {
+        logger.d(e);
+        throw Exception('Failed to parse owned stocks');
+      }
+    } else {
+      logger.d(response.bodyString);
+      throw Exception(
+          'Failed to fetch owned stocks: ${response.statusCode} - ${response.statusText}');
+    }
+  }
+
+  @override
+  Future<List<Order>> getOrderHistory(String token) async {
+    final headers = {'Authorization': 'Bearer $token'};
+    final response = await get("/api/user/orders", headers: headers);
+
+    if (response.isOk) {
+      try {
+        List<dynamic> jsonData = response.body;
+        return jsonData.map((data) => Order.fromJson(data)).toList();
+      } catch (e) {
+        logger.e("Error parsing orders: $e");
+        throw Exception('Failed to parse order history');
+      }
+    } else {
+      logger.e(
+          "Error fetching order history: ${response.statusCode} - ${response.statusText}");
+      throw Exception(
+          'Failed to fetch order history: ${response.statusCode} - ${response.statusText}');
     }
   }
 }

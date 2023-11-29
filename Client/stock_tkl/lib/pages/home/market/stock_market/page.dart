@@ -72,17 +72,25 @@ class StockMarketPage extends GetView<HomeController> {
                               cells: [
                                 DataCell(Text(e.symbol)),
                                 customDataCell(e.price.toString(),
-                                    isChange: controller
-                                        .trackTheChange[e.symbol]!["price"]!),
+                                    isChange:
+                                        controller.trackTheChange[e.symbol]
+                                                ?["price"] ??
+                                            0),
                                 customDataCell(e.changeValue.toString(),
-                                    isChange: controller.trackTheChange[
-                                        e.symbol]!["changeValue"]!),
+                                    isChange:
+                                        controller.trackTheChange[e.symbol]
+                                                ?["changeValue"] ??
+                                            0),
                                 customDataCell(e.percentChange.toString(),
-                                    isChange: controller.trackTheChange[
-                                        e.symbol]!["percentChange"]!),
+                                    isChange:
+                                        controller.trackTheChange[e.symbol]
+                                                ?["percentChange"] ??
+                                            0),
                                 customDataCell(e.volume.toString(),
-                                    isChange: controller
-                                        .trackTheChange[e.symbol]!["volume"]!),
+                                    isChange:
+                                        controller.trackTheChange[e.symbol]
+                                                ?["volume"] ??
+                                            0),
                               ],
                               onSelectChanged: (value) {
                                 _showBottomSheet(context, e);
