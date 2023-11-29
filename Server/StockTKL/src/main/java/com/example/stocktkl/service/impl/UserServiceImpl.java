@@ -54,12 +54,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<OrderResponse> getOrdersForCurrentUser() {
+    public List<Order> getOrdersForCurrentUser() {
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = userRepository.findByUsername(currentUsername)
                 .orElseThrow(() -> new RuntimeException("Cant find user"));
 
-        return orderRepository.findByUser(currentUser);
+        return orderRepository.findByUserId(currentUser.getUserId());
     }
 
     @Override

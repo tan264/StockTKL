@@ -229,6 +229,7 @@ class ApiService extends GetConnect implements IApiService {
     if (response.isOk) {
       try {
         List<dynamic> jsonList = jsonDecode(response.bodyString!);
+        logger.d(jsonList);
         return jsonList.map((data) => Stock.fromJson(data)).toList();
       } catch (e) {
         logger.d(e);
@@ -249,6 +250,7 @@ class ApiService extends GetConnect implements IApiService {
     if (response.isOk) {
       try {
         List<dynamic> jsonData = response.body;
+        logger.d(jsonData);
         return jsonData.map((data) => Order.fromJson(data)).toList();
       } catch (e) {
         logger.e("Error parsing orders: $e");

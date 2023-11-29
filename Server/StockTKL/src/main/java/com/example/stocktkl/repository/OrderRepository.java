@@ -22,10 +22,12 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "ORDER BY q.timeStamp DESC " +
             "LIMIT 1")
     BigDecimal getPrice(String symbol);
-    @Query("SELECT NEW com.example.stocktkl.payload.response.OrderResponse(" +
-            "o.orderId, s.symbol, s.companyName, s.industry, s.sector, o.price, o.quantity, o.orderType, o.orderDate) " +
-            "FROM Order o JOIN o.stock s WHERE o.user = :user")
-    List<OrderResponse> findByUser(@Param("user") User user);
+//    @Query("SELECT NEW com.example.stocktkl.payload.response.OrderResponse(" +
+//            "o.orderId, s.symbol, s.companyName, s.industry, s.sector, o.price, o.quantity, o.orderType, o.orderDate) " +
+//            "FROM Order o JOIN o.stock s WHERE o.user = :user")
+//    List<OrderResponse> findByUser(@Param("user") User user);
+
+    List<Order> findByUserId(Long userId);
 
     List<Order> findAllByDirectionAndStatusAndStockIdOrderByPriceDesc(EOrderDirection direction, EOrderStatus status, Long stockId);
 

@@ -31,6 +31,7 @@ class Order {
   final double price;
   final String status;
   final DateTime orderDate;
+  final String companyName;
 
   Order(
       {required this.symbol,
@@ -39,7 +40,8 @@ class Order {
       required this.quantity,
       required this.price,
       required this.status,
-      required this.orderDate});
+      required this.orderDate,
+      required this.companyName});
 
   // factory Order.fromJson(Map<String, dynamic> json) => Order(direction: json[''])
   factory Order.fromJson(Map<String, dynamic> json) => Order(
@@ -50,5 +52,6 @@ class Order {
         price: json['price'],
         status: json['status'],
         orderDate: DateTime.parse(json['orderDate']),
+        companyName: json['companyName'],
       );
 }

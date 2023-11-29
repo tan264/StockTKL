@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserService {
     List<Stock> getWatchlistedStocksForCurrentUser();
     List<OwnedStockResponse> getOwnedStocksForCurrentUser();
-    List<OrderResponse> getOrdersForCurrentUser();
+    List<Order> getOrdersForCurrentUser();
     boolean addStockToWatchlist(String symbol);
     boolean removeStockFromWatchlist(String symbol);
 }

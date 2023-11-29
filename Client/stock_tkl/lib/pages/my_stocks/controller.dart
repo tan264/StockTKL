@@ -9,8 +9,7 @@ class MyStocksController extends GetxController {
   final RxBool isLoading = false.obs;
   final ApiService apiService = Get.find<ApiService>();
   final AuthService authService = Get.find<AuthService>();
-  final token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0cnVuZzIiLCJpYXQiOjE3MDEyMDg4OTEsImV4cCI6MTcwMTI5NTI5MX0.DHJWtVhd9g1w5SF5AHgiAwH656psEbL5mZYxM5bhLdU";
-
+  // final token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0cnVuZzIiLCJpYXQiOjE3MDEyMDg4OTEsImV4cCI6MTcwMTI5NTI5MX0.DHJWtVhd9g1w5SF5AHgiAwH656psEbL5mZYxM5bhLdU";
 
   @override
   void onInit() {
@@ -26,7 +25,7 @@ class MyStocksController extends GetxController {
       // if (token == null) {
       //   throw Exception('Token is null');
       // }
-      var result = await apiService.getOwnedStocks(token);
+      var result = await apiService.getOwnedStocks(authService.token!);
       ownedStocks.assignAll(result);
     } catch (e) {
       logger.e("Error fetching owned stocks: $e");

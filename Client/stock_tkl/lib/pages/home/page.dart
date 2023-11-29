@@ -99,7 +99,11 @@ class HomePage extends GetView<HomeController> {
                 title: const Text('My Stocks'),
                 onTap: () {
                   // Navigate to the My Stocks page
-                  Get.toNamed(AppRoutes.myStocks);
+                  if (controller.isLogged()) {
+                    Get.toNamed(AppRoutes.myStocks);
+                  } else {
+                    Get.toNamed(AppRoutes.signin);
+                  }
                 },
               ),
               ListTile(
@@ -107,7 +111,11 @@ class HomePage extends GetView<HomeController> {
                 title: const Text('Order History'),
                 onTap: () {
                   // Navigate to the Order History page
-                  Get.toNamed(AppRoutes.orderHistory);
+                  if (controller.isLogged()) {
+                    Get.toNamed(AppRoutes.orderHistory);
+                  } else {
+                    Get.toNamed(AppRoutes.signin);
+                  }
                 },
               ),
             ],

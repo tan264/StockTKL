@@ -57,13 +57,13 @@ public class UserController {
     }
 
     @GetMapping("/orders")
-    public ResponseEntity<?> getOrdersForCurrentUser() {
+    public ResponseEntity<MessageResponse> getOrdersForCurrentUser() {
         try {
-            List<OrderResponse> orders = userService.getOrdersForCurrentUser();
-            if (orders.isEmpty()) {
-                return ResponseEntity.status(StatusCode.NOT_FOUND.code).build();
-            }
-            return ResponseEntity.status(HttpStatus.OK).body(orders);
+            List<Order> orders = userService.getOrdersForCurrentUser();
+            return ResponseEntity.ok(
+                    new MessageResponse(HttpStatus.OK.value(),
+                            "Get orders successfully",
+                            orders));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new MessageResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
