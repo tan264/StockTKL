@@ -51,7 +51,13 @@ class Order {
         quantity: json['quantity'],
         price: json['price'],
         status: json['status'],
-        orderDate: DateTime.parse(json['orderDate']),
+        orderDate: DateTime(
+            json['orderDate'][0],
+            json['orderDate'][1],
+            json['orderDate'][2],
+            json['orderDate'][3],
+            json['orderDate'][4],
+            json['orderDate'][5]),
         companyName: json['companyName'],
       );
 }

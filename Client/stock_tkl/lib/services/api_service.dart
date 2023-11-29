@@ -249,9 +249,10 @@ class ApiService extends GetConnect implements IApiService {
 
     if (response.isOk) {
       try {
-        List<dynamic> jsonData = response.body;
+        Map<String, dynamic> jsonData = response.body;
+        List<dynamic> data = jsonData['data'];
         logger.d(jsonData);
-        return jsonData.map((data) => Order.fromJson(data)).toList();
+        return data.map((data) => Order.fromJson(data)).toList();
       } catch (e) {
         logger.e("Error parsing orders: $e");
         throw Exception('Failed to parse order history');
