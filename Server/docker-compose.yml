@@ -1,0 +1,59 @@
+version: "3.8"
+services:
+  app:
+    build:
+      context: ./StockTKL
+      dockerfile: Dockerfile
+    container_name: stock
+    restart: unless-stopped
+    image: springboot-app
+    ports:
+      - "80:8080"
+    volumes:
+      - ./StockTKL:/app
+    depends_on:
+      - rabbitmq
+      - db
+    networks:
+      - photos
+
+  db:
+    container_name: db
+    image: mysql
+    restart: unless-stopped
+    volumes:
+      - ./devops/data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: stock_tkl
+      MYSQL_USER : tan264
+      MYSQL_PASSWORD : 123456
+    networks:
+      - photos
+
+  rabbitmq:
+    restart: unless-stopped
+    container_name: rabbitmq
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - photos
+
+  market-data:
+    build:
+      context: ./MarketData
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: market-data
+    image: market-data
+    volumes:
+      - ./MarketData:/MarketData
+    networks:
+      - photos
+networks:
+  photos:
+    driver: bridge
